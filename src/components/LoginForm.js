@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../index.css'; 
+import '../index.css';
 
 function LoginForm({ onClose, setIsLogin }) {
     const [email, setEmail] = useState('');
@@ -23,10 +23,10 @@ function LoginForm({ onClose, setIsLogin }) {
 
             const data = await response.json();
             if (response.ok) {
-                alert(data.message);
+                alert(data.message); // Assuming your backend sends a success message
                 onClose();
             } else {
-                setError(data.message);
+                setError(data.message); // Assuming error message from backend
             }
         } catch (err) {
             setError('Network error');

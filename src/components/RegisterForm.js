@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../index.css'; 
+import '../index.css';
 
 function RegisterForm({ onClose, setIsLogin }) {
     const [email, setEmail] = useState('');
@@ -43,8 +43,7 @@ function RegisterForm({ onClose, setIsLogin }) {
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title">Register</h5>
-                            <button type="button" className="btn-close" onClick={onClose}>
-                            </button>
+                            <button type="button" className="btn-close" onClick={onClose}></button>
                         </div>
                         <div className="modal-body">
                             <form onSubmit={handleRegister}>
