@@ -4,11 +4,11 @@ import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
 
 function Header() {
-    const [isRegistered, setIsRegistered] = useState(false);  // tracks whether user is in login or register mode
+    const [isLogin, setIsLogin] = useState(true);
     const [showForm, setShowForm] = useState(false);
 
     const handleShowForm = (isLogin) => {
-        setIsRegistered(isLogin);  // set to 'true' for login, 'false' for signup
+        setIsLogin(isLogin);
         setShowForm(true);
     };
 
@@ -26,15 +26,15 @@ function Header() {
                     </div>
                     <button
                         className="btn btn-primary ml-2"
-                        onClick={() => handleShowForm(true)}  // Set to login when "Sign In" is clicked
+                        onClick={() => handleShowForm(!isLogin)}
                     >
-                        {isRegistered ? 'Sign In' : 'Sign Up'}
+                        {isLogin ? 'Sign Up' : 'Sign In'}
                     </button>
                 </div>
             </header>
 
             {showForm && (
-                isRegistered
+                isLogin
                 ? <LoginForm onClose={handleCloseForm} />
                 : <RegisterForm onClose={handleCloseForm} />
             )}

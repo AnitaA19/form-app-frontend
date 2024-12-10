@@ -28,7 +28,7 @@ function RegisterForm({ onClose }) {
                 setError(data.message);
             }
         } catch (err) {
-            setError('Ошибка сети');
+            setError('Error');
         } finally {
             setLoading(false);
         }
@@ -36,10 +36,10 @@ function RegisterForm({ onClose }) {
 
     return (
         <div className="modal show" style={{ display: 'block' }} tabIndex="-1" role="dialog">
-            <div className="modal-dialog" role="document">
+            <div className="modal-dialog modal-dialog-centered" role="document">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h5 className="modal-title">Register</h5>
+                        <h5 className="modal-title">Sign Up</h5>
                         <button type="button" className="close" onClick={onClose}>
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -58,7 +58,7 @@ function RegisterForm({ onClose }) {
                                 />
                             </div>
                             <div className="form-group">
-                                <label htmlFor="password">Пароль</label>
+                                <label htmlFor="password">Password</label>
                                 <input
                                     type="password"
                                     className="form-control"
@@ -70,9 +70,14 @@ function RegisterForm({ onClose }) {
                             </div>
                             {error && <div className="alert alert-danger">{error}</div>}
                             <button type="submit" className="btn btn-primary" disabled={loading}>
-                                {loading ? 'Registration...' : 'Register'}
+                                {loading ? 'Registering...' : 'Sign Up'}
                             </button>
                         </form>
+                    </div>
+                    <div className="modal-footer">
+                        <button className="btn btn-link" onClick={() => setIsLogin(true)}>
+                            Already have an account? Log In
+                        </button>
                     </div>
                 </div>
             </div>
