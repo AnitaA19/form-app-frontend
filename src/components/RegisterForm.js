@@ -5,7 +5,6 @@ function RegisterForm({ onClose }) {
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [isLogin, setIsLogin] = useState(false); 
 
     const handleRegister = async (e) => {
         e.preventDefault();
@@ -29,7 +28,7 @@ function RegisterForm({ onClose }) {
                 setError(data.message);
             }
         } catch (err) {
-            setError('Ошибка сети');
+            setError('Network error');
         } finally {
             setLoading(false);
         }
@@ -59,7 +58,7 @@ function RegisterForm({ onClose }) {
                                 />
                             </div>
                             <div className="form-group">
-                                <label htmlFor="password">Пароль</label>
+                                <label htmlFor="password">Password</label>
                                 <input
                                     type="password"
                                     className="form-control"
@@ -71,7 +70,7 @@ function RegisterForm({ onClose }) {
                             </div>
                             {error && <div className="alert alert-danger">{error}</div>}
                             <button type="submit" className="btn btn-primary" disabled={loading}>
-                                {loading ? 'Registration...' : 'Register'}
+                                {loading ? 'Registering...' : 'Register'}
                             </button>
                         </form>
                     </div>

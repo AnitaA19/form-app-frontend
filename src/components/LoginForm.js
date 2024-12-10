@@ -5,7 +5,6 @@ function LoginForm({ onClose }) {
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [isLogin, setIsLogin] = useState(true); 
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -29,7 +28,7 @@ function LoginForm({ onClose }) {
                 setError(data.message);
             }
         } catch (err) {
-            setError('Error');
+            setError('Network error');
         } finally {
             setLoading(false);
         }
@@ -40,7 +39,7 @@ function LoginForm({ onClose }) {
             <div className="modal-dialog" role="document">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h5 className="modal-title">Вход</h5>
+                        <h5 className="modal-title">Login</h5>
                         <button type="button" className="close" onClick={onClose}>
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -71,7 +70,7 @@ function LoginForm({ onClose }) {
                             </div>
                             {error && <div className="alert alert-danger">{error}</div>}
                             <button type="submit" className="btn btn-primary" disabled={loading}>
-                                {loading ? 'In Process...' : 'Log in'}
+                                {loading ? 'Logging in...' : 'Log in'}
                             </button>
                         </form>
                     </div>
