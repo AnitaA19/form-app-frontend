@@ -44,7 +44,6 @@ function LoginForm({ onClose, setIsLogin }) {
                         <div className="modal-header">
                             <h5 className="modal-title">Login</h5>
                             <button type="button" className="close" onClick={onClose}>
-                                <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div className="modal-body">

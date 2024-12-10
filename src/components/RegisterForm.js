@@ -44,7 +44,6 @@ function RegisterForm({ onClose, setIsLogin }) {
                         <div className="modal-header">
                             <h5 className="modal-title">Register</h5>
                             <button type="button" className="btn-close" onClick={onClose}>
-                                <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div className="modal-body">
