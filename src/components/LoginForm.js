@@ -5,6 +5,7 @@ function LoginForm({ onClose }) {
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [isLogin, setIsLogin] = useState(true); 
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -36,10 +37,10 @@ function LoginForm({ onClose }) {
 
     return (
         <div className="modal show" style={{ display: 'block' }} tabIndex="-1" role="dialog">
-            <div className="modal-dialog modal-dialog-centered" role="document">
+            <div className="modal-dialog" role="document">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h5 className="modal-title">Log In</h5>
+                        <h5 className="modal-title">Вход</h5>
                         <button type="button" className="close" onClick={onClose}>
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -70,14 +71,9 @@ function LoginForm({ onClose }) {
                             </div>
                             {error && <div className="alert alert-danger">{error}</div>}
                             <button type="submit" className="btn btn-primary" disabled={loading}>
-                                {loading ? 'In Process...' : 'Log In'}
+                                {loading ? 'In Process...' : 'Log in'}
                             </button>
                         </form>
-                    </div>
-                    <div className="modal-footer">
-                        <button className="btn btn-link" onClick={() => setIsLogin(false)}>
-                            Don't have an account? Sign Up
-                        </button>
                     </div>
                 </div>
             </div>
