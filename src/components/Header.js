@@ -35,8 +35,8 @@ function Header() {
 
             {showForm && (
                 isLogin
-                ? <LoginForm onClose={handleCloseForm} />
-                : <RegisterForm onClose={handleCloseForm} />
+                ? <LoginForm onClose={handleCloseForm} setIsLogin={setIsLogin} />
+                : <RegisterForm onClose={handleCloseForm} setIsLogin={setIsLogin} />
             )}
         </>
     );

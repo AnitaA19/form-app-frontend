@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../index.css'; 
 
-function LoginForm({ onClose }) {
+function LoginForm({ onClose, setIsLogin }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
@@ -72,10 +72,13 @@ function LoginForm({ onClose }) {
                                     />
                                 </div>
                                 {error && <div className="alert alert-danger">{error}</div>}
-                                <button type="submit" className="btn btn-primary" disabled={loading}>
+                                <button type="submit" className="btn btn-primary w-100 mb-3" disabled={loading}>
                                     {loading ? 'Logging in...' : 'Log in'}
                                 </button>
                             </form>
+                            <div className="text-center">
+                                <p>Don't have an account? <button className="btn btn-link" onClick={() => setIsLogin(false)}>Sign Up</button></p>
+                            </div>
                         </div>
                     </div>
                 </div>
