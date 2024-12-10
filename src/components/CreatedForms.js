@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 function CreatedForms() {
     const [selectedAuthor, setSelectedAuthor] = useState('');
-    const [forms, setForms] = useState([]);
+    const [forms] = useState([]);
 
     const filteredForms = selectedAuthor
         ? forms.filter(form => form.author === selectedAuthor)
