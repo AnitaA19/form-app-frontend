@@ -1,6 +1,6 @@
-import CreatedForms from "./CreatedForms"
-import Forms from "./Forms"
-import Header from "./Header"
+import CreatedForms from "../components/CreatedForms"
+import Forms from "../components/Forms"
+import Header from "../components/Header"
 
 function Home() {
     return (
