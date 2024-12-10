@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import '../index.css'; 
 
 function LoginForm({ onClose }) {
     const [email, setEmail] = useState('');
@@ -35,48 +36,51 @@ function LoginForm({ onClose }) {
     };
 
     return (
-        <div className="modal show" style={{ display: 'block' }} tabIndex="-1" role="dialog">
-            <div className="modal-dialog" role="document">
-                <div className="modal-content">
-                    <div className="modal-header">
-                        <h5 className="modal-title">Login</h5>
-                        <button type="button" className="close" onClick={onClose}>
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div className="modal-body">
-                        <form onSubmit={handleLogin}>
-                            <div className="form-group">
-                                <label htmlFor="email">Email</label>
-                                <input
-                                    type="email"
-                                    className="form-control"
-                                    id="email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    required
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="password">Password</label>
-                                <input
-                                    type="password"
-                                    className="form-control"
-                                    id="password"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    required
-                                />
-                            </div>
-                            {error && <div className="alert alert-danger">{error}</div>}
-                            <button type="submit" className="btn btn-primary" disabled={loading}>
-                                {loading ? 'Logging in...' : 'Log in'}
+        <>
+            <div className="modal-backdrop fade show" style={{ backdropFilter: 'blur(5px)' }}></div>
+            <div className="modal show d-flex align-items-center justify-content-center" style={{ display: 'block', zIndex: 1050 }} tabIndex="-1" role="dialog">
+                <div className="modal-dialog" role="document">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title">Login</h5>
+                            <button type="button" className="close" onClick={onClose}>
+                                <span aria-hidden="true">&times;</span>
                             </button>
-                        </form>
+                        </div>
+                        <div className="modal-body">
+                            <form onSubmit={handleLogin}>
+                                <div className="form-group">
+                                    <label htmlFor="email">Email</label>
+                                    <input
+                                        type="email"
+                                        className="form-control"
+                                        id="email"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        required
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="password">Password</label>
+                                    <input
+                                        type="password"
+                                        className="form-control"
+                                        id="password"
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        required
+                                    />
+                                </div>
+                                {error && <div className="alert alert-danger">{error}</div>}
+                                <button type="submit" className="btn btn-primary" disabled={loading}>
+                                    {loading ? 'Logging in...' : 'Log in'}
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 }
 
