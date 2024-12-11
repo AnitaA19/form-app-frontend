@@ -2,16 +2,16 @@ import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
-function Forms({ setIsAuthenticated }) {
+function Forms() {
     const [forms, setForms] = useState([]);
-    const [isAuthenticated, setIsAuthenticatedState] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     useEffect(() => {
         const authToken = localStorage.getItem('authToken');
         if (authToken) {
-            setIsAuthenticatedState(true); 
+            setIsAuthenticated(true); 
         } else {
-            setIsAuthenticatedState(false); 
+            setIsAuthenticated(false); 
         }
     }, []);
 
@@ -19,10 +19,6 @@ function Forms({ setIsAuthenticated }) {
         const newForm = { id: forms.length + 1, title: `Form ${forms.length + 1}` };
         setForms([...forms, newForm]); 
     };
-
-    useEffect(() => {
-        setIsAuthenticated(isAuthenticated);  
-    }, [isAuthenticated, setIsAuthenticated]);
 
     return (
         <section className="py-5">
