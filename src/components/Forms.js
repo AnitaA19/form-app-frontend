@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 function Forms() {
     const [forms, setForms] = useState([]);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const navigate = useNavigate();
 
     useEffect(() => {
         const authToken = localStorage.getItem('authToken');
@@ -60,7 +58,6 @@ function Forms() {
                                         <p className="card-text text-muted">Template</p>
                                         <button
                                             className="btn btn-primary btn-sm"
-                                            onClick={() => navigate(`/edit-form/${form.id}`)}
                                         >
                                             Edit
                                         </button>
