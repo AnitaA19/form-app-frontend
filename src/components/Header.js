@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 function Header() {
     const [isLogin, setIsLogin] = useState(true);
@@ -44,21 +45,33 @@ function Header() {
                         <input type="text" className="form-control" placeholder="Search" />
                     </div>
 
-                    {isAuthenticated ? (
-                        <div className="d-flex align-items-center">
-                            <span className="mr-3">Welcome, {userEmail.slice(0,4)}</span>
-                            <button className="btn btn-dnger ml-3" onClick={handleLogout}>
-                                Logout
+                    <div className="d-flex align-items-center">
+                        {isAuthenticated ? (
+                            <>
+                                <span className="mr-3">Welcome, {userEmail.slice(0, 4)}</span>
+                                <button
+                                    className="btn btn-danger ml-3"
+                                    onClick={handleLogout}
+                                >
+                                    Logout
+                                </button>
+                                <button
+                                    className="btn btn-primary ml-3 rounded-circle"
+                                    onClick={() => setShowForm(true)}
+                                    style={{ width: '50px', height: '50px', fontSize: '30px' }}
+                                >
+                                    <i className="fas fa-plus"></i>
+                                </button>
+                            </>
+                        ) : (
+                            <button
+                                className="btn btn-primary ml-2"
+                                onClick={() => handleShowForm(!isLogin)}
+                            >
+                                {isLogin ? 'Sign Up' : 'Sign In'}
                             </button>
-                        </div>
-                    ) : (
-                        <button
-                            className="btn btn-primary ml-2"
-                            onClick={() => handleShowForm(!isLogin)}
-                        >
-                            {isLogin ? 'Sign Up' : 'Sign In'}
-                        </button>
-                    )}
+                        )}
+                    </div>
                 </div>
             </header>
 
