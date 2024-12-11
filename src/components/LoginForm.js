@@ -25,8 +25,7 @@ function LoginForm({ onClose, setIsLogin, setIsAuthenticated, setUserEmail }) {
             if (response.ok) {
                 localStorage.setItem('authToken', data.token);
                 localStorage.setItem('userData', JSON.stringify({ email: data.email }));
-
-                alert(data.message);
+                
                 setIsAuthenticated(true);
                 setUserEmail(data.email); 
                 onClose();

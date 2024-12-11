@@ -44,7 +44,7 @@ function Forms() {
                     {forms.length === 0 ? (
                         <div className="col-12 text-center">
 <p className="text-muted">
-  {isAuthenticated ? 'You do not have any form. Click "+" to add a form' : 'Registered to add a form'}
+  {isAuthenticated ? 'You do not have any form. Click "+" to add a form' : 'Log in to add a form'}
 </p>
                         </div>
                     ) : (
