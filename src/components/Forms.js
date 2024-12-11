@@ -9,15 +9,17 @@ function Forms() {
     useEffect(() => {
         const authToken = localStorage.getItem('authToken');
         if (authToken) {
-            setIsAuthenticated(true); 
+            setIsAuthenticated(true);
         } else {
-            setIsAuthenticated(false); 
+            setIsAuthenticated(false);
         }
     }, []);
 
     const addNewForm = () => {
-        const newForm = { id: forms.length + 1, title: `Form ${forms.length + 1}` };
-        setForms([...forms, newForm]); 
+        if (isAuthenticated) {
+            const newForm = { id: forms.length + 1, title: `Form ${forms.length + 1}` };
+            setForms([...forms, newForm]);
+        }
     };
 
     return (
