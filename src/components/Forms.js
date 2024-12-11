@@ -2,23 +2,27 @@ import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
-function Forms() {
+function Forms({ setIsAuthenticated }) {
     const [forms, setForms] = useState([]);
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isAuthenticated, setIsAuthenticatedState] = useState(false);
 
     useEffect(() => {
         const authToken = localStorage.getItem('authToken');
         if (authToken) {
-            setIsAuthenticated(true);
+            setIsAuthenticatedState(true); 
         } else {
-            setIsAuthenticated(false);
+            setIsAuthenticatedState(false); 
         }
     }, []);
 
     const addNewForm = () => {
         const newForm = { id: forms.length + 1, title: `Form ${forms.length + 1}` };
-        setForms([...forms, newForm]);
+        setForms([...forms, newForm]); 
     };
+
+    useEffect(() => {
+        setIsAuthenticated(isAuthenticated);  
+    }, [isAuthenticated, setIsAuthenticated]);
 
     return (
         <section className="py-5">
@@ -43,9 +47,9 @@ function Forms() {
                 <div className="row">
                     {forms.length === 0 ? (
                         <div className="col-12 text-center">
-<p className="text-muted">
-  {isAuthenticated ? 'You do not have any form. Click "+" to add a form' : 'Log in to add a form'}
-</p>
+                            <p className="text-muted">
+                                {isAuthenticated ? 'You do not have any form. Click "+" to add a form' : 'Log in to add a form'}
+                            </p>
                         </div>
                     ) : (
                         forms.map((form) => (
