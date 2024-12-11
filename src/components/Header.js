@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
-import Forms from './Forms';
 
 function Header() {
     const [isLogin, setIsLogin] = useState(true);
@@ -48,7 +47,7 @@ function Header() {
                     {isAuthenticated ? (
                         <div className="d-flex align-items-center">
                             <span className="mr-3">Welcome, {userEmail.slice(0,4)}</span>
-                            <button className="btn btn-danger ml-3" onClick={handleLogout}>
+                            <button className="btn btn-dnger ml-3" onClick={handleLogout}>
                                 Logout
                             </button>
                         </div>
@@ -68,8 +67,6 @@ function Header() {
                     ? <LoginForm onClose={handleCloseForm} setIsLogin={setIsLogin} setIsAuthenticated={setIsAuthenticated} setUserEmail={setUserEmail} />
                     : <RegisterForm onClose={handleCloseForm} setIsLogin={setIsLogin} />
             )}
-
-            <Forms setIsAuthenticated={setIsAuthenticated} />
         </>
     );
 }
