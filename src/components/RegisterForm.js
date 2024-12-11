@@ -13,7 +13,7 @@ function RegisterForm({ onClose, setIsLogin }) {
         setError(null);
 
         try {
-            const response = await fetch(`http://localhost:3000/api/register`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
