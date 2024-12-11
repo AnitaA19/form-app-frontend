@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 function Forms() {
     const [forms, setForms] = useState([]);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const authToken = localStorage.getItem('authToken');
@@ -18,6 +20,8 @@ function Forms() {
     const addNewForm = () => {
         const newForm = { id: forms.length + 1, title: `Form ${forms.length + 1}` };
         setForms([...forms, newForm]);
+        // Перевод на страницу редактирования формы
+        navigate(`/edit-form/${newForm.id}`);
     };
 
     return (
@@ -43,9 +47,11 @@ function Forms() {
                 <div className="row">
                     {forms.length === 0 ? (
                         <div className="col-12 text-center">
-<p className="text-muted">
-  {isAuthenticated ? 'You do not have any form. Click "+" to add a form' : 'Log in to add a form'}
-</p>
+                            <p className="text-muted">
+                                {isAuthenticated
+                                    ? 'You do not have any forms. Click "+" to add a form.'
+                                    : 'Log in to add a form.'}
+                            </p>
                         </div>
                     ) : (
                         forms.map((form) => (
@@ -54,7 +60,12 @@ function Forms() {
                                     <div className="card-body text-center">
                                         <h5 className="card-title">{form.title}</h5>
                                         <p className="card-text text-muted">Template</p>
-                                        <button className="btn btn-primary btn-sm">Edit</button>
+                                        <button
+                                            className="btn btn-primary btn-sm"
+                                            onClick={() => navigate(`/edit-form/${form.id}`)}
+                                        >
+                                            Edit
+                                        </button>
                                     </div>
                                 </div>
                             </div>
