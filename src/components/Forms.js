@@ -20,8 +20,6 @@ function Forms() {
     const addNewForm = () => {
         const newForm = { id: forms.length + 1, title: `Form ${forms.length + 1}` };
         setForms([...forms, newForm]);
-        // Перевод на страницу редактирования формы
-        navigate(`/edit-form/${newForm.id}`);
     };
 
     return (
