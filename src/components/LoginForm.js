@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../index.css';
 
-function LoginForm({ onClose, setIsLogin }) {
+function LoginForm({ onClose, setIsLogin, setIsAuthenticated, setUserEmail }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
@@ -13,7 +13,7 @@ function LoginForm({ onClose, setIsLogin }) {
         setError(null);
 
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/login`, {
+            const response = await fetch(`http://localhost:3000/api/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -23,15 +23,20 @@ function LoginForm({ onClose, setIsLogin }) {
 
             const data = await response.json();
             if (response.ok) {
-                alert(data.message); // Assuming your backend sends a success message
+                localStorage.setItem('authToken', data.token);
+                localStorage.setItem('userData', JSON.stringify({ email: data.email }));
+
+                alert(data.message);
+                setIsAuthenticated(true);
+                setUserEmail(data.email); 
                 onClose();
             } else {
-                setError(data.message); // Assuming error message from backend
+                setError(data.message); 
             }
         } catch (err) {
-            setError('Network error');
+            setError('Network error'); 
         } finally {
-            setLoading(false);
+            setLoading(false); 
         }
     };
 
@@ -43,8 +48,7 @@ function LoginForm({ onClose, setIsLogin }) {
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title">Login</h5>
-                            <button type="button" className="btn-close" onClick={onClose}>
-                            </button>
+                            <button type="button" className="btn-close" onClick={onClose}></button>
                         </div>
                         <div className="modal-body">
                             <form onSubmit={handleLogin}>

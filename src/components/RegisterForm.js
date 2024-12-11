@@ -13,7 +13,7 @@ function RegisterForm({ onClose, setIsLogin }) {
         setError(null);
 
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/register`, {
+            const response = await fetch(`http://localhost:3000/api/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -22,13 +22,23 @@ function RegisterForm({ onClose, setIsLogin }) {
             });
 
             const data = await response.json();
+            
+            console.log("Backend Response Data:", data);  
+
             if (response.ok) {
-                alert(data.message);
+                if (data.token) {
+                    console.log("Token Received:", data.token);  
+                    localStorage.setItem('authToken', data.token);  
+                } else {
+                    console.error("Token is missing from the response");
+                    setError('Token missing from the response');
+                }
                 onClose();
             } else {
-                setError(data.message);
+                setError(data.error || data.message);
             }
         } catch (err) {
+            console.error('Error in registration request:', err);  // Логируем ошибки сети
             setError('Network error');
         } finally {
             setLoading(false);

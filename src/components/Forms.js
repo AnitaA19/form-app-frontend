@@ -1,9 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 function Forms() {
     const [forms, setForms] = useState([]);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+    useEffect(() => {
+        const authToken = localStorage.getItem('authToken');
+        if (authToken) {
+            setIsAuthenticated(true);
+        } else {
+            setIsAuthenticated(false);
+        }
+    }, []);
 
     const addNewForm = () => {
         const newForm = { id: forms.length + 1, title: `Form ${forms.length + 1}` };
@@ -18,19 +28,24 @@ function Forms() {
                     <button className="btn btn-link text-secondary">Gallery</button>
                 </div>
 
-                <div className="text-center mb-4">
-                    <button
-                        onClick={addNewForm}
-                        className="btn btn-light rounded-circle border shadow-sm"
-                        style={{ width: '80px', height: '80px', fontSize: '36px', color: '#4285F4' }}>
-                        <i className="fas fa-plus"></i>
-                    </button>
-                </div>
+                {isAuthenticated && (
+                    <div className="text-center mb-4">
+                        <button
+                            onClick={addNewForm}
+                            className="btn btn-light rounded-circle border shadow-sm"
+                            style={{ width: '80px', height: '80px', fontSize: '36px', color: '#4285F4' }}
+                        >
+                            <i className="fas fa-plus"></i>
+                        </button>
+                    </div>
+                )}
 
                 <div className="row">
                     {forms.length === 0 ? (
                         <div className="col-12 text-center">
-                            <p className="text-muted">You do not have any form. Click "+" to add a form</p>
+<p className="text-muted">
+  {isAuthenticated ? 'You do not have any form. Click "+" to add a form' : 'Registered to add a form'}
+</p>
                         </div>
                     ) : (
                         forms.map((form) => (
