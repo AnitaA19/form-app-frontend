@@ -1,19 +1,10 @@
+// Forms.js
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
-function Forms() {
+function Forms({ isAuthenticated }) {  
     const [forms, setForms] = useState([]);
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-    useEffect(() => {
-        const authToken = localStorage.getItem('authToken');
-        if (authToken) {
-            setIsAuthenticated(true);
-        } else {
-            setIsAuthenticated(false);
-        }
-    }, []);
 
     const addNewForm = () => {
         if (isAuthenticated) {

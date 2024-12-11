@@ -6,7 +6,6 @@ function Home() {
     return (
         <>
             <Header/>
-            <Forms/>
             <CreatedForms/>
         </>
     )
