@@ -13,7 +13,7 @@ function LoginForm({ onClose, setIsLogin, setIsAuthenticated, setUserEmail }) {
         setError(null);
 
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/login`, {
+            const response = await fetch(`${ process.env.REACT_APP_API_URL}/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -25,7 +25,7 @@ function LoginForm({ onClose, setIsLogin, setIsAuthenticated, setUserEmail }) {
             if (response.ok) {
                 localStorage.setItem('authToken', data.token);
                 localStorage.setItem('userData', JSON.stringify({ email: data.email }));
-                
+
                 setIsAuthenticated(true);
                 setUserEmail(data.email); 
                 onClose();

@@ -43,11 +43,9 @@ function Forms() {
                 <div className="row">
                     {forms.length === 0 ? (
                         <div className="col-12 text-center">
-                            <p className="text-muted">
-                                {isAuthenticated
-                                    ? 'You do not have any forms. Click "+" to add a form.'
-                                    : 'Log in to add a form.'}
-                            </p>
+<p className="text-muted">
+  {isAuthenticated ? 'You do not have any form. Click "+" to add a form' : 'Log in to add a form'}
+</p>
                         </div>
                     ) : (
                         forms.map((form) => (
@@ -56,11 +54,7 @@ function Forms() {
                                     <div className="card-body text-center">
                                         <h5 className="card-title">{form.title}</h5>
                                         <p className="card-text text-muted">Template</p>
-                                        <button
-                                            className="btn btn-primary btn-sm"
-                                        >
-                                            Edit
-                                        </button>
+                                        <button className="btn btn-primary btn-sm">Edit</button>
                                     </div>
                                 </div>
                             </div>
