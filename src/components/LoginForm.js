@@ -11,75 +11,86 @@ function LoginForm({ onClose, setIsLogin, setIsAuthenticated, setUserEmail }) {
         e.preventDefault();
         setLoading(true);
         setError(null);
-
+    
         try {
-            const response = await fetch(`${ process.env.REACT_APP_API_URL}/login`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ email, password }),
             });
-
+    
             const data = await response.json();
             if (response.ok) {
+                const currentTime = new Date().getTime();  
+                const expiryDuration = 3600 * 1000; 
+                const expiryTime = currentTime + expiryDuration;  
+    
                 localStorage.setItem('authToken', data.token);
                 localStorage.setItem('userData', JSON.stringify({ email: data.email }));
-
+                localStorage.setItem('authExpiryTime', expiryTime); 
+    
                 setIsAuthenticated(true);
-                setUserEmail(data.email); 
+                setUserEmail(data.email);
                 onClose();
             } else {
-                setError(data.message); 
+                setError(data.message);
             }
         } catch (err) {
-            setError('Network error'); 
+            setError('Network error');
         } finally {
-            setLoading(false); 
+            setLoading(false);
         }
     };
+    
 
     return (
         <>
             <div className="modal-backdrop fade show" style={{ backdropFilter: 'blur(5px)' }}></div>
             <div className="modal show d-flex align-items-center justify-content-center" style={{ display: 'block', zIndex: 1050 }} tabIndex="-1" role="dialog">
-                <div className="modal-dialog" role="document">
-                    <div className="modal-content">
+                <div className="modal-dialog custom-modal" role="document">
+                    <div className="modal-content custom-modal-content">
                         <div className="modal-header">
-                            <h5 className="modal-title">Login</h5>
+                            <h5 className="modal-title text-center w-100">Login</h5>
                             <button type="button" className="btn-close" onClick={onClose}></button>
                         </div>
                         <div className="modal-body">
                             <form onSubmit={handleLogin}>
-                                <div className="form-group">
-                                    <label htmlFor="email">Email</label>
+                                <div className="form-group mb-3">
+                                    <label htmlFor="email" className="form-label">Email</label>
                                     <input
                                         type="email"
-                                        className="form-control"
+                                        className="form-control custom-input"
                                         id="email"
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
                                         required
                                     />
                                 </div>
-                                <div className="form-group">
-                                    <label htmlFor="password">Password</label>
+                                <div className="form-group mb-3">
+                                    <label htmlFor="password" className="form-label">Password</label>
                                     <input
                                         type="password"
-                                        className="form-control"
+                                        className="form-control custom-input"
                                         id="password"
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
                                         required
                                     />
                                 </div>
-                                {error && <div className="alert alert-danger">{error}</div>}
-                                <button type="submit" className="btn btn-primary w-100 mb-3" disabled={loading}>
+                                {error && <div className="alert alert-danger mb-3">{error}</div>}
+                                <button type="submit" className="btn custom-btn w-100 mb-3"  style={{ backgroundColor: '#9370DB', color: '#FFF' }} disabled={loading}>
                                     {loading ? 'Logging in...' : 'Log in'}
                                 </button>
                             </form>
-                            <div className="text-center">
-                                <p>Don't have an account? <button className="btn btn-link" onClick={() => setIsLogin(false)}>Sign Up</button></p>
+                            <div className="text-center mt-4">
+                                <p className="custom-text mb-1">Don't have an account?</p>
+                                <button className="btn btn-link custom-link" onClick={() => setIsLogin(false)} style={{
+        color: '#9370DB',
+        textDecoration: 'none'}} >
+                                    Sign Up
+                                </button>
                             </div>
                         </div>
                     </div>
