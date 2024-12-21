@@ -151,16 +151,16 @@ function TemplateForm() {
   };  
   
   const handleQuestionSubmit = async () => {
-    const selectedAnswers = questionData.answers
-      .filter((answer) => answer.selected)
-      .map((answer) => answer.text);
+    // Collecting all answers including both selected and unselected ones
+    const allAnswers = questionData.answers.map(answer => answer.text);
   
     const questionDataToSend = {
       template_id: templateId,
       name: questionData.name,
       description: questionData.description,
       answerType: questionData.answerType,
-      answers: selectedAnswers,
+      answers: allAnswers,  // Include all answers, not just selected ones
+      show_answer: questionData.showQuestion ? 1 : 0, 
     };
   
     try {
@@ -176,7 +176,7 @@ function TemplateForm() {
         {
           headers: {
             Authorization: `Bearer ${token}`, 
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
           },
         }
       );
@@ -185,7 +185,7 @@ function TemplateForm() {
         name: "",
         description: "",
         answerType: "checkbox",
-        showQuestion: false,
+        showQuestion: false, // Reset to default
         answers: [{ text: "", selected: false }],
       });
   
@@ -197,6 +197,7 @@ function TemplateForm() {
       setError(`Failed to create question: ${error.response?.data?.message || 'Unknown error'}`);
     }
   };
+   
   
 
   return (
@@ -325,123 +326,147 @@ function TemplateForm() {
 
       {/* Modal for creating questions */}
       {modalVisible && (
-        <div className="modal fade show" tabIndex="-1" style={{ display: "block" }}>
-          <div className="modal-dialog">
-            <div className="modal-content">
-              <div className="modal-header" style={{ backgroundColor: "#6f42c4", color: "white" }}>
-                <h5 className="modal-title">Create Question</h5>
-                <button
-                  type="button"
-                  className="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                  onClick={() => setModalVisible(false)}
-                ></button>
-              </div>
-              <div className="modal-body">
-                <div className="mb-3">
-                  <label htmlFor="questionName" className="form-label" style={{ color: "#6f42c1" }}>
-                    Question Name
-                  </label>
+  <div className="modal fade show" tabIndex="-1" style={{ display: "block" }}>
+    <div className="modal-dialog">
+      <div className="modal-content">
+        <div className="modal-header" style={{ backgroundColor: "#6f42c4", color: "white" }}>
+          <h5 className="modal-title">Create Question</h5>
+          <button
+            type="button"
+            className="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+            onClick={() => setModalVisible(false)}
+          ></button>
+        </div>
+        <div className="modal-body">
+          {/* Question Name */}
+          <div className="mb-3">
+            <label htmlFor="questionName" className="form-label" style={{ color: "#6f42c1" }}>
+              Question Name
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="questionName"
+              name="name"
+              value={questionData.name}
+              onChange={handleQuestionChange}
+              placeholder="Enter question name"
+              style={{ borderColor: "#6f42c1" }}
+            />
+          </div>
+
+          {/* Question Description */}
+          <div className="mb-3">
+            <label htmlFor="questionDescription" className="form-label" style={{ color: "#6f42c1" }}>
+              Question Description
+            </label>
+            <textarea
+              className="form-control"
+              id="questionDescription"
+              name="description"
+              rows="3"
+              value={questionData.description}
+              onChange={handleQuestionChange}
+              placeholder="Enter description"
+              style={{ borderColor: "#6f42c1" }}
+            ></textarea>
+          </div>
+
+          {/* Answer Type */}
+          <div className="mb-3">
+            <label htmlFor="answerType" className="form-label" style={{ color: "#6f42c1" }}>
+              Answer Type
+            </label>
+            <select
+              className="form-select"
+              id="answerType"
+              name="answerType"
+              value={questionData.answerType}
+              onChange={handleQuestionChange}
+              style={{ borderColor: "#6f42c1" }}
+            >
+              <option value="checkbox">Checkbox</option>
+              <option value="text">Text</option>
+            </select>
+          </div>
+
+          {/* Show Answer Section */}
+          <div className="mb-3">
+            <label htmlFor="showAnswer" className="form-label" style={{ color: "#6f42c1" }}>
+              Show Answer
+            </label>
+            <select
+              className="form-select"
+              id="showAnswer"
+              name="showAnswer"
+              value={questionData.showAnswer}
+              onChange={(e) =>
+                setQuestionData({ ...questionData, showAnswer: e.target.value })
+              }
+              style={{ borderColor: "#6f42c1" }}
+            >
+              <option value="1">True</option>
+              <option value="0">False</option>
+            </select>
+          </div>
+
+          {/* Dynamically Generate Answers */}
+          {questionData.answerType === "checkbox" && (
+            <div>
+              {questionData.answers.map((answer, index) => (
+                <div key={index} className="input-group mb-2 align-items-center">
+                  <div className="input-group-text">
+                    <input
+                      type="checkbox"
+                      checked={answer.selected}
+                      onChange={() => handleCheckboxChange(index)}
+                      className="form-check-input mt-0"
+                    />
+                  </div>
                   <input
                     type="text"
                     className="form-control"
-                    id="questionName"
-                    name="name"
-                    value={questionData.name}
-                    onChange={handleQuestionChange}
-                    placeholder="Enter question name"
+                    value={answer.text}
+                    onChange={(e) => handleAnswerChange(index, e.target.value)}
+                    placeholder={`Answer ${index + 1}`}
                     style={{ borderColor: "#6f42c1" }}
                   />
-                </div>
-
-                <div className="mb-3">
-                  <label htmlFor="questionDescription" className="form-label" style={{ color: "#6f42c1" }}>
-                    Question Description
-                  </label>
-                  <textarea
-                    className="form-control"
-                    id="questionDescription"
-                    name="description"
-                    rows="3"
-                    value={questionData.description}
-                    onChange={handleQuestionChange}
-                    placeholder="Enter description"
-                    style={{ borderColor: "#6f42c1" }}
-                  ></textarea>
-                </div>
-
-                <div className="mb-3">
-                  <label htmlFor="answerType" className="form-label" style={{ color: "#6f42c1" }}>
-                    Answer Type
-                  </label>
-                  <select
-                    className="form-select"
-                    id="answerType"
-                    name="answerType"
-                    value={questionData.answerType}
-                    onChange={handleQuestionChange}
-                    style={{ borderColor: "#6f42c1" }}
+                  <button
+                    type="button"
+                    className="btn btn-danger"
+                    onClick={() => handleRemoveAnswer(index)}
                   >
-                    <option value="checkbox">Checkbox</option>
-                    <option value="text">Text</option>
-                  </select>
+                    Remove
+                  </button>
                 </div>
-
-                {/* Dynamically generate answers based on answer type */}
-                {questionData.answerType === "checkbox" && (
-                  <div>
-                    {questionData.answers.map((answer, index) => (
-                      <div key={index} className="input-group mb-2 align-items-center">
-                        <div className="input-group-text">
-                          <input
-                            type="checkbox"
-                            checked={answer.selected}
-                            onChange={() => handleCheckboxChange(index)}
-                            className="form-check-input mt-0"
-                          />
-                        </div>
-                        <input
-                          type="text"
-                          className="form-control"
-                          value={answer.text}
-                          onChange={(e) => handleAnswerChange(index, e.target.value)}
-                          placeholder={`Answer ${index + 1}`}
-                          style={{ borderColor: "#6f42c1" }}
-                        />
-                        <button
-                          type="button"
-                          className="btn btn-danger"
-                          onClick={() => handleRemoveAnswer(index)}
-                        >
-                          Remove
-                        </button>
-                      </div>
-                    ))}
-                    <button
-                      type="button"
-                      className="btn btn-primary w-100"
-                      onClick={handleAddAnswer}
-                    >
-                      Add Answer
-                    </button>
-                  </div>
-                )}
-
-                <button
-                  type="button"
-                  className="btn btn-success w-100 mt-3"
-                  onClick={handleQuestionSubmit}
-                >
-                  Save Question
-                </button>
-              </div>
+              ))}
+              <button
+                type="button"
+                className="btn btn-primary w-100"
+                onClick={handleAddAnswer}
+              >
+                Add Answer
+              </button>
             </div>
-          </div>
+          )}
+
+          {/* Save Button */}
+          <button
+            type="button"
+            className="btn btn-success w-100 mt-3"
+            onClick={handleQuestionSubmit}
+          >
+            Save Question
+          </button>
         </div>
-      )}
+      </div>
+    </div>
+  </div>
+)}
     </div>
   );
 }
 
-export default TemplateForm; 
+export default TemplateForm;  
