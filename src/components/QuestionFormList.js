@@ -11,8 +11,8 @@ function UserQuestions() {
     name: '',
     description: '',
     answerType: 'checkbox',
-    showAnswer: '1',
-    answers: [], // Array of objects { text, correct (boolean), selected (boolean) }
+    showAnswer: '1', 
+    answers: [],
   });
 
   useEffect(() => {
@@ -45,6 +45,10 @@ function UserQuestions() {
 
   const handleEditClick = (question) => {
     setSelectedQuestion(question);
+    const correctAnswers = Array.isArray(question.correct_answer)
+      ? question.correct_answer
+      : JSON.parse(question.correct_answer);
+
     setQuestionData({
       name: question.name,
       description: question.description,
@@ -52,8 +56,8 @@ function UserQuestions() {
       showAnswer: question.show_answer ? '1' : '0',
       answers: question.answers.map((answer, index) => ({
         text: answer,
-        correct: false, // Here you can add logic to set this correctly based on the original data
-        selected: false,
+        correct: correctAnswers.includes(index + 1),
+        selected: correctAnswers.includes(index + 1),
       })),
     });
     setIsModalOpen(true);
@@ -109,12 +113,31 @@ function UserQuestions() {
     setQuestionData({ ...questionData, answers: updatedAnswers });
   };
 
-  const handleCorrectAnswerChange = (index) => {
-    const updatedAnswers = questionData.answers.map((answer, idx) => ({
-      ...answer,
-      correct: idx === index, // Only the selected index will be marked as correct
-    }));
-    setQuestionData({ ...questionData, answers: updatedAnswers });
+
+  const handleDeleteQuestion = async (questionId) => {
+    try {
+      const token = localStorage.getItem('authToken');
+      if (!token) {
+        setError('Authentication token is missing.');
+        return;
+      }
+
+      const response = await fetch(`http://localhost:3000/api/questions/${questionId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        setQuestions(questions.filter((question) => question.question_id !== questionId));
+      } else {
+        const data = await response.json();
+        setError(data.message || 'Failed to delete the question.');
+      }
+    } catch (error) {
+      setError('An error occurred while deleting the question.');
+    }
   };
 
   return (
@@ -150,6 +173,13 @@ function UserQuestions() {
                       style={{ color: '#6f42c1' }}
                     >
                       Edit
+                    </button>
+                    <button
+                      className="btn btn-outline-danger btn-sm"
+                      onClick={() => handleDeleteQuestion(question.question_id)}
+                      style={{ color: '#6f42c1' }}
+                    >
+                      Delete
                     </button>
                   </div>
                 </div>
@@ -196,37 +226,48 @@ function UserQuestions() {
                 {questionData.answerType === 'checkbox' && (
                   <div>
                     <label className="form-label" style={{ color: '#6f42c1' }}>Answers</label>
-                    {questionData.answers.length > 0 ? (
-                      questionData.answers.map((answer, index) => (
-                        <div key={index} className="d-flex align-items-center gap-2 mb-2">
-                          <input
-                            type="text"
-                            className="form-control"
-                            value={answer.text}
-                            onChange={(e) => updateAnswer(index, 'text', e.target.value)}
-                          />
-                          <input
-                            type="radio"
-                            className="form-check-input"
-                            checked={answer.correct}
-                            onChange={() => handleCorrectAnswerChange(index)}
-                          />
-                          <button
-                            className="btn btn-danger btn-sm"
-                            onClick={() => deleteAnswer(index)}
-                          >
-                            Remove
-                          </button>
-                        </div>
-                      ))
-                    ) : (
-                      <p>No answers available</p>
-                    )}
+                    {questionData.answers.map((answer, index) => (
+                      <div key={index} className="d-flex align-items-center gap-2 mb-2">
+                        <input
+                          type="text"
+                          className="form-control"
+                          value={answer.text}
+                          onChange={(e) => updateAnswer(index, 'text', e.target.value)}
+                        />
+                        <input
+                          type="checkbox"
+                          className="form-check-input"
+                          checked={answer.selected}
+                          onChange={() => updateAnswer(index, 'selected', !answer.selected)}
+                        />
+                        <button
+                          className="btn btn-danger btn-sm"
+                          onClick={() => deleteAnswer(index)}
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    ))}
                     <button className="btn btn-primary btn-sm mt-2" onClick={addAnswer}>
                       Add Answer
                     </button>
                   </div>
                 )}
+                <div className="mb-3">
+                  <label className="form-check-label" style={{ color: '#6f42c1' }}>
+                    Show Answer
+                  </label>
+                  <select
+                    className="form-select"
+                    value={questionData.showAnswer}
+                    onChange={(e) =>
+                      setQuestionData({ ...questionData, showAnswer: e.target.value })
+                    }
+                  >
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                  </select>
+                </div>
               </div>
               <div className="modal-footer">
                 <button

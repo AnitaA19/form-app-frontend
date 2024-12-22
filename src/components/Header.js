@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
 import Forms from './CreateTemplate';
-import { useNavigate } from 'react-router-dom'; // For redirection
+import { useNavigate } from 'react-router-dom';
 import '../index.css';
 
 function Header() {
@@ -12,7 +12,7 @@ function Header() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [userEmail, setUserEmail] = useState('');
 
-    const navigate = useNavigate(); // For navigation to the home page
+    const navigate = useNavigate(); 
 
     useEffect(() => {
         const token = localStorage.getItem('authToken');
