@@ -8,12 +8,13 @@ function Forms({ isAuthenticated }) {
     const navigate = useNavigate();
     const location = useLocation();
     const [isCreating, setIsCreating] = useState(false);
+    const [isGalleryView, setIsGalleryView] = useState(false); 
 
     useEffect(() => {
         setIsCreating(location.pathname === '/create-template');
     }, [location.pathname]);
 
-    const handleButtonClick = () => {
+    const handleCreateButtonClick = () => {
         if (!isAuthenticated) return;
 
         if (!isCreating) {
@@ -25,18 +26,30 @@ function Forms({ isAuthenticated }) {
         }
     };
 
+    const handleGalleryButtonClick = () => {
+        if (!isAuthenticated) return;
+        
+        setIsGalleryView(!isGalleryView);
+    };
+
     return (
         <section className="py-5" style={{ backgroundColor: '#E6E6FA' }}>
             <div className="container">
                 <div className="d-flex justify-content-between align-items-center mb-4">
-                    <h2 className="text-secondary" style={{ color: '#6f42c1' }}>Create a Template</h2>
-                    <button className="btn btn-link text-secondary" style={{ color: '#6f42c1' }}>Gallery</button>
+                    <h2 className="text-secondary">Create a Template</h2>
+                    <button
+                        className="btn btn-link text-secondary"
+                        style={{ color: '#6f42c1' }}
+                        onClick={handleGalleryButtonClick} 
+                    >
+                        Gallery
+                    </button>
                 </div>
 
                 {isAuthenticated && (
                     <div className="text-center mb-4">
                         <button
-                            onClick={handleButtonClick}
+                            onClick={handleCreateButtonClick}
                             className={`btn rounded-circle border shadow-sm transition-all duration-300 ease-in-out ${
                                 !isCreating ? 'btn-light' : 'btn-danger'
                             }`}
@@ -66,7 +79,9 @@ function Forms({ isAuthenticated }) {
                     </div>
                 </div>
             </div>
-            <QuestionFormList />
+
+            {isGalleryView && <QuestionFormList />}
+
         </section>
     );
 }

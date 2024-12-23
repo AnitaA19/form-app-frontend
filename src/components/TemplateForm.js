@@ -147,7 +147,6 @@ function TemplateForm() {
   };
 
   const handleQuestionSubmit = async () => {
-    // Get selected answers for correct_answer
     const correct_answer = questionData.answers
       .filter(answer => answer.selected)
       .map(answer => answer.id);
