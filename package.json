@@ -30,7 +30,8 @@
     "react-scripts": "5.0.1",
     "react-toggle-theme": "^1.0.0",
     "styled-components": "^6.1.13",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+     "typescript": "4.9.5"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -38,6 +39,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "resolutions": {
+  "typescript": "^4.9.5"
+},
   "eslintConfig": {
     "extends": [
       "react-app",
