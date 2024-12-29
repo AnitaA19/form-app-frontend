@@ -4,9 +4,12 @@ import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
 import Forms from './CreateTemplate';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import '../index.css';
+import LanguageSelector from './LanguageSelector';
 
 function Header() {
+    const { t } = useTranslation();
     const [isLogin, setIsLogin] = useState(true);
     const [showForm, setShowForm] = useState(false);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -57,9 +60,10 @@ function Header() {
         <>
             <header className="bg-light text-dark py-3 shadow-sm border-bottom flex-container" style={{ backgroundColor: '#E6E6FA' }}>
                 <div className="container d-flex justify-content-between align-items-center">
+                    <LanguageSelector />
                     <h1 className="mb-0 fw-bold" style={{ color: '#4B0082' }}>
                         <a href="/" style={{ textDecoration: 'none', color: '#4B0082' }}>
-                            Forms
+                            {t('forms')}
                         </a>
                     </h1>
                     <div className="d-flex w-50 justify-content-center">
@@ -67,21 +71,21 @@ function Header() {
                             type="text"
                             className="form-control rounded-pill border-0"
                             style={{ backgroundColor: '#F8F8FF', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}
-                            placeholder="Search"
+                            placeholder={t('search')}
                         />
                     </div>
 
                     {isAuthenticated ? (
                         <div className="d-flex align-items-center">
                             <span className="text-dark me-3" style={{ fontSize: '1.1rem', color: '#4B0082' }}>
-                                Welcome, {userEmail.slice(0, 4)}
+                                {t('welcome')}, {userEmail.slice(0, 4)}
                             </span>
                             <button
                                 className="btn btn-outline-dark rounded-pill px-4"
                                 style={{ borderColor: '#4B0082', color: '#4B0082' }}
                                 onClick={handleLogout}
                             >
-                                Logout
+                                {t('logout')}
                             </button>
                         </div>
                     ) : (
@@ -90,7 +94,7 @@ function Header() {
                             style={{ backgroundColor: '#9370DB', color: '#FFF' }}
                             onClick={() => handleShowForm(!isLogin)}
                         >
-                            {isLogin ? 'Sign Up' : 'Sign In'}
+                            {isLogin ? t('sign_up') : t('sign_in')}
                         </button>
                     )}
                 </div>

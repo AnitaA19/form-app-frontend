@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import '../index.css';
 
 function RegisterForm({ onClose, setIsLogin }) {
+    const { t } = useTranslation();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
@@ -13,7 +15,7 @@ function RegisterForm({ onClose, setIsLogin }) {
         setError(null);
 
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/register`, {
+            const response = await fetch(`http://localhost:3000/api/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -52,13 +54,13 @@ function RegisterForm({ onClose, setIsLogin }) {
                 <div className="modal-dialog custom-modal" role="document">
                     <div className="modal-content custom-modal-content">
                         <div className="modal-header">
-                            <h5 className="modal-title text-center w-100">Sign Up</h5>
+                            <h5 className="modal-title text-center w-100">{t('sign_up')}</h5>
                             <button type="button" className="btn-close" onClick={onClose}></button>
                         </div>
                         <div className="modal-body">
                             <form onSubmit={handleRegister}>
                                 <div className="form-group mb-3">
-                                    <label htmlFor="email" className="form-label">Email</label>
+                                    <label htmlFor="email" className="form-label">{t('email')}</label>
                                     <input
                                         type="email"
                                         className="form-control custom-input"
@@ -69,7 +71,7 @@ function RegisterForm({ onClose, setIsLogin }) {
                                     />
                                 </div>
                                 <div className="form-group mb-3">
-                                    <label htmlFor="password" className="form-label">Password</label>
+                                    <label htmlFor="password" className="form-label">{t('password')}</label>
                                     <input
                                         type="password"
                                         className="form-control custom-input"
@@ -81,16 +83,13 @@ function RegisterForm({ onClose, setIsLogin }) {
                                 </div>
                                 {error && <div className="alert alert-danger mb-3">{error}</div>}
                                 <button type="submit" className="btn custom-btn w-100 mb-3" style={{ backgroundColor: '#9370DB', color: '#FFF' }} disabled={loading}>
-                                    {loading ? 'Registering...' : 'Register'}
+                                    {loading ? t('registering') : t('register')}
                                 </button>
                             </form>
                             <div className="text-center mt-4">
-                                <p className="custom-text mb-1">Already have an account?</p>
-                                <button className="btn btn-link custom-link" onClick={() => setIsLogin(true)} style={{
-                                    color: '#9370DB',
-                                    textDecoration: 'none'
-                                }}>
-                                    Log In
+                                <p className="custom-text mb-1">{t('have_account')}</p>
+                                <button className="btn btn-link custom-link" onClick={() => setIsLogin(true)} style={{ color: '#9370DB', textDecoration: 'none' }}>
+                                    {t('log_in')}
                                 </button>
                             </div>
                         </div>

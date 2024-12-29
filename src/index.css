@@ -18,7 +18,6 @@ code {
   box-sizing: border-box;
 }
 
-/* Make the modal dialog centered */
 .modal.show {
   display: block;
   position: fixed;

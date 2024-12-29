@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useTranslation } from 'react-i18next';
 
 function UserQuestions() {
+  const { t } = useTranslation();
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -16,7 +18,7 @@ function UserQuestions() {
     answers: [],
   });
 
-  const navigate = useNavigate(); // Initialize the useNavigate hook
+  const navigate = useNavigate();
 
   const handleNavigate = (question) => {
     navigate(`/template-crud/${question.template_id}`);
@@ -38,17 +40,17 @@ function UserQuestions() {
         if (data.success) {
           setQuestions(data.questions);
         } else {
-          setError(data.message || 'Failed to fetch questions.');
+          setError(data.message || t('failed_to_fetch_questions'));
         }
       } catch (error) {
-        setError('An error occurred while fetching the questions.');
+        setError(t('error_fetching_questions'));
       } finally {
         setLoading(false);
       }
     };
 
     fetchQuestions();
-  }, []);
+  }, [t]);
 
   const handleEditClick = (question) => {
     setSelectedQuestion(question);
@@ -75,7 +77,7 @@ function UserQuestions() {
     try {
       const token = localStorage.getItem('authToken');
       if (!token) {
-        setError('Authentication token is missing.');
+        setError(t('auth_token_missing'));
         return;
       }
 
@@ -96,10 +98,10 @@ function UserQuestions() {
         setIsModalOpen(false);
       } else {
         const data = await response.json();
-        setError(data.message || 'Failed to update the question.');
+        setError(data.message || t('failed_to_update_question'));
       }
     } catch (error) {
-      setError('An error occurred while saving changes.');
+      setError(t('error_saving_changes'));
     }
   };
 
@@ -107,7 +109,7 @@ function UserQuestions() {
     try {
       const token = localStorage.getItem('authToken');
       if (!token) {
-        setError('Authentication token is missing.');
+        setError(t('auth_token_missing'));
         return;
       }
 
@@ -122,24 +124,24 @@ function UserQuestions() {
         setQuestions(questions.filter((question) => question.question_id !== questionId));
       } else {
         const data = await response.json();
-        setError(data.message || 'Failed to delete the question.');
+        setError(data.message || t('failed_to_delete_question'));
       }
     } catch (error) {
-      setError('An error occurred while deleting the question.');
+      setError(t('error_deleting_question'));
     }
   };
 
   return (
     <div className="container py-5" style={{ color: '#6f42c1' }}>
       <h2 className="text-center mb-4 fw-bold" style={{ color: '#6f42c1' }}>
-        Your Questions
+        {t('your_questions')}
       </h2>
 
       {error && <div className="alert alert-danger" style={{ backgroundColor: '#6f42c1', color: '#fff' }}>{error}</div>}
       {loading ? (
         <div className="text-center">
           <div className="spinner-border text-primary" role="status">
-            <span className="visually-hidden">Loading...</span>
+            <span className="visually-hidden">{t('loading')}</span>
           </div>
         </div>
       ) : (
@@ -149,11 +151,11 @@ function UserQuestions() {
               key={question.question_id}
               className="col-lg-4 col-md-6"
               onClick={(e) => {
-                if (e.target.tagName !== 'BUTTON') {  // Check if the target is not a button (edit or delete)
-                  handleNavigate(question);   // Navigate to the template of the clicked question
+                if (e.target.tagName !== 'BUTTON') {
+                  handleNavigate(question);
                 }
               }}
-              style={{ cursor: 'pointer' }}  // Adding pointer cursor to indicate it's clickable
+              style={{ cursor: 'pointer' }}
             >
               <div className="card h-100 shadow-sm border-0 hover-shadow" style={{ borderColor: '#6f42c1' }}>
                 <div className="card-header" style={{ backgroundColor: '#6f42c1', color: '#fff' }}>
@@ -163,27 +165,27 @@ function UserQuestions() {
                   <p className="card-text text-muted mb-3">{question.description}</p>
                   <div className="d-flex justify-content-between align-items-center">
                     <span className="badge bg-light text-primary">
-                      {question.answer_type === 'checkbox' ? 'Multiple Choice' : 'Text Response'}
+                      {question.answer_type === 'checkbox' ? t('multiple_choice') : t('text_response')}
                     </span>
                     <button
                       className="btn btn-outline-primary btn-sm"
                       onClick={(e) => {
-                        e.stopPropagation();  // Prevent navigation when clicking the Edit button
+                        e.stopPropagation();
                         handleEditClick(question);
                       }} 
                       style={{ color: '#6f42c1' }}
                     >
-                      Edit
+                      {t('edit')}
                     </button>
                     <button
                       className="btn btn-outline-danger btn-sm"
                       onClick={(e) => {
-                        e.stopPropagation();  // Prevent navigation when clicking the Delete button
+                        e.stopPropagation();
                         handleDeleteQuestion(question.question_id);
                       }} 
                       style={{ color: '#6f42c1' }}
                     >
-                      Delete
+                      {t('delete')}
                     </button>
                   </div>
                 </div>
@@ -198,7 +200,7 @@ function UserQuestions() {
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title" style={{ color: '#6f42c1' }}>Edit Question</h5>
+                <h5 className="modal-title" style={{ color: '#6f42c1' }}>{t('edit_question')}</h5>
                 <button
                   type="button"
                   className="btn-close"
@@ -207,9 +209,8 @@ function UserQuestions() {
                 ></button>
               </div>
               <div className="modal-body">
-                {/* Modal content for editing the question */}
                 <div className="mb-3">
-                  <label className="form-label" style={{ color: '#6f42c1' }}>Question Name</label>
+                  <label className="form-label" style={{ color: '#6f42c1' }}>{t('question_name')}</label>
                   <input
                     type="text"
                     className="form-control"
@@ -218,7 +219,6 @@ function UserQuestions() {
                   />
                 </div>
                 {/* Rest of the modal content */}
-                {/* Similar to your previous modal structure */}
               </div>
               <div className="modal-footer">
                 <button
@@ -227,10 +227,10 @@ function UserQuestions() {
                   onClick={() => setIsModalOpen(false)}
                   style={{ color: '#6f42c1' }}
                 >
-                  Cancel
+                  {t('cancel')}
                 </button>
                 <button type="button" className="btn btn-primary" onClick={handleSaveChanges} style={{ backgroundColor: '#6f42c1', color: '#fff' }}>
-                  Save Changes
+                  {t('save_changes')}
                 </button>
               </div>
             </div>

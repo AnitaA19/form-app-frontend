@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom'; 
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 const TemplatesCRUD = () => {
-  const { id } = useParams(); // Access the 'id' param using useParams hook
-  const navigate = useNavigate(); // Use useNavigate instead of useHistory
+  const { t } = useTranslation();
+  const { id } = useParams();
+  const navigate = useNavigate(); 
   
   const [templateData, setTemplateData] = useState({
     name: '',
@@ -17,7 +19,6 @@ const TemplatesCRUD = () => {
   const [success, setSuccess] = useState('');
 
   useEffect(() => {
-    // Fetch template data by ID from the database
     if (id) {
       axios
         .get(`http://localhost:3000/api/templates/${id}`)
@@ -33,22 +34,22 @@ const TemplatesCRUD = () => {
         })
         .catch((err) => {
           console.error('Error fetching template:', err);
-          setError('Failed to fetch template');
+          setError(t('failed_to_fetch_template'));
         });
     }
-  }, [id]);
+  }, [id, t]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (!templateData.name || !templateData.description || !templateData.theme || templateData.public === null) {
-      setError('Please fill in all the fields.');
+      setError(t('fill_required_fields'));
       setSuccess('');
       return;
     }
 
     setError('');
-    setSuccess('Template updated successfully!');
+    setSuccess(t('template_updated_successfully'));
 
     const formData = new FormData();
     formData.append('title', templateData.name);
@@ -65,21 +66,20 @@ const TemplatesCRUD = () => {
       })
       .catch((err) => {
         console.error('Error updating template:', err);
-        setError('Failed to update template');
+        setError(t('failed_to_update_template'));
       });
   };
 
   const handleDelete = () => {
-    // Delete the template via API
     axios
       .delete(`http://localhost:3000/api/templates/${id}`)
       .then((response) => {
         setSuccess(response.data.message);
-        navigate('/templates'); // Redirect to the template list page using navigate
+        navigate('/templates');
       })
       .catch((err) => {
         console.error('Error deleting template:', err);
-        setError('Failed to delete template');
+        setError(t('failed_to_delete_template'));
       });
   };
 
@@ -87,7 +87,7 @@ const TemplatesCRUD = () => {
     <div className="container mt-4">
       <div className="card">
         <div className="card-header" style={{ backgroundColor: "#6f42c1", color: "white" }}>
-          <h4>Edit Template</h4>
+          <h4>{t('edit_template')}</h4>
         </div>
         <div className="card-body">
           {error && <div className="alert alert-danger">{error}</div>}
@@ -96,7 +96,7 @@ const TemplatesCRUD = () => {
           <form onSubmit={handleSubmit}>
             {/* Template Name */}
             <div className="mb-3">
-              <label htmlFor="name" className="form-label">Name</label>
+              <label htmlFor="name" className="form-label">{t('name')}</label>
               <input
                 type="text"
                 className="form-control"
@@ -104,27 +104,25 @@ const TemplatesCRUD = () => {
                 name="name"
                 value={templateData.name}
                 onChange={(e) => setTemplateData({ ...templateData, name: e.target.value })}
-                placeholder="Enter template name"
+                placeholder={t('enter_template_name')}
               />
             </div>
 
-            {/* Template Description */}
             <div className="mb-3">
-              <label htmlFor="description" className="form-label">Description</label>
+              <label htmlFor="description" className="form-label">{t('description')}</label>
               <textarea
                 className="form-control"
                 id="description"
                 name="description"
                 value={templateData.description}
                 onChange={(e) => setTemplateData({ ...templateData, description: e.target.value })}
-                placeholder="Enter description"
+                placeholder={t('enter_description')}
                 rows="3"
               ></textarea>
             </div>
 
-            {/* Theme Selection */}
             <div className="mb-3">
-              <label htmlFor="theme" className="form-label">Theme</label>
+              <label htmlFor="theme" className="form-label">{t('theme')}</label>
               <select
                 className="form-select"
                 id="theme"
@@ -132,18 +130,17 @@ const TemplatesCRUD = () => {
                 value={templateData.theme}
                 onChange={(e) => setTemplateData({ ...templateData, theme: e.target.value })}
               >
-                <option value="">Select a theme</option>
-                <option value="data-science">Data Science</option>
-                <option value="front">Frontend</option>
-                <option value="back">Backend</option>
-                <option value="devops">DevOps</option>
-                <option value="database">Database</option>
+                <option value="">{t('select_theme')}</option>
+                <option value="data-science">{t('data_science')}</option>
+                <option value="front">{t('frontend')}</option>
+                <option value="back">{t('backend')}</option>
+                <option value="devops">{t('devops')}</option>
+                <option value="database">{t('database')}</option>
               </select>
             </div>
 
-            {/* Public/Private Selection */}
             <div className="mb-3">
-              <label className="form-label">Public</label>
+              <label className="form-label">{t('public')}</label>
               <div className="form-check">
                 <input
                   className="form-check-input"
@@ -154,7 +151,7 @@ const TemplatesCRUD = () => {
                   checked={templateData.public === true}
                   onChange={() => setTemplateData({ ...templateData, public: true })}
                 />
-                <label className="form-check-label" htmlFor="publicYes">Yes</label>
+                <label className="form-check-label" htmlFor="publicYes">{t('yes')}</label>
               </div>
               <div className="form-check">
                 <input
@@ -166,13 +163,12 @@ const TemplatesCRUD = () => {
                   checked={templateData.public === false}
                   onChange={() => setTemplateData({ ...templateData, public: false })}
                 />
-                <label className="form-check-label" htmlFor="publicNo">No</label>
+                <label className="form-check-label" htmlFor="publicNo">{t('no')}</label>
               </div>
             </div>
 
-            {/* Image Upload */}
             <div className="mb-3">
-              <label htmlFor="image" className="form-label">Image</label>
+              <label htmlFor="image" className="form-label">{t('image')}</label>
               <input
                 className="form-control"
                 type="file"
@@ -182,13 +178,12 @@ const TemplatesCRUD = () => {
             </div>
 
             <button type="submit" className="btn btn-primary w-100">
-              Update Template
+              {t('update_template')}
             </button>
           </form>
 
-          {/* Delete Button */}
           <button className="btn btn-danger w-100 mt-3" onClick={handleDelete}>
-            Delete Template
+            {t('delete_template')}
           </button>
         </div>
       </div>

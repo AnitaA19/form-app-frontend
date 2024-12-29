@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import QuestionFormList from './QuestionFormList';
 
 function Forms({ isAuthenticated }) {
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const location = useLocation();
     const [isCreating, setIsCreating] = useState(false);
@@ -36,13 +38,13 @@ function Forms({ isAuthenticated }) {
         <section className="py-5" style={{ backgroundColor: '#E6E6FA' }}>
             <div className="container">
                 <div className="d-flex justify-content-between align-items-center mb-4">
-                    <h2 className="text-secondary">Create a Template</h2>
+                    <h2 className="text-secondary">{t('create_template')}</h2>
                     <button
                         className="btn btn-link text-secondary"
                         style={{ color: '#6f42c1' }}
                         onClick={handleGalleryButtonClick} 
                     >
-                        Gallery
+                        {t('gallery')}
                     </button>
                 </div>
 
@@ -71,10 +73,10 @@ function Forms({ isAuthenticated }) {
                     <div className="col-12 text-center">
                         <p className="text-muted" style={{ color: '#6f42c1' }}>
                             {!isAuthenticated
-                                ? 'Log in to add a form'
+                                ? t('log_in_to_add_form')
                                 : isCreating
-                                ? 'Go back to main page'
-                                : 'You do not have any form. Click "+" to add a form'}
+                                ? t('go_back_to_main_page')
+                                : t('no_forms_click_to_add')}
                         </p>
                     </div>
                 </div>
