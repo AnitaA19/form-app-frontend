@@ -35,10 +35,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "preinstall": "somePreInstallScript",
-    "install": "someInstallScript",
-    "postinstall": "somePostInstallScript"
+    "eject": "react-scripts eject"
   },
   "resolutions": {
     "typescript": "^4.9.5"
