@@ -30,7 +30,7 @@ function UserQuestions() {
         const token = localStorage.getItem('authToken');
         if (!token) return;
 
-        const response = await fetch('http://localhost:3000/api/questions/user', {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/questions/user`, {
           headers: { 'Authorization': `Bearer ${token}` },
         });
 
@@ -81,7 +81,7 @@ function UserQuestions() {
         return;
       }
 
-      const response = await fetch(`http://localhost:3000/api/questions/${selectedQuestion.question_id}`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/questions/${selectedQuestion.question_id}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -113,7 +113,7 @@ function UserQuestions() {
         return;
       }
 
-      const response = await fetch(`http://localhost:3000/api/questions/${questionId}`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/questions/${questionId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,

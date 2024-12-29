@@ -117,7 +117,7 @@ function TemplateForm() {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/templates/create",
+        `${process.env.REACT_APP_API_URL}/templates/create`,
         formDataToSend,
         {
           headers: {
@@ -176,7 +176,7 @@ function TemplateForm() {
       }
 
       await axios.post(
-        `http://localhost:3000/api/${templateId}/questions`,
+        `${process.env.REACT_APP_API_URL}/${templateId}/questions`,
         questionDataToSend,
         {
           headers: {
@@ -205,7 +205,6 @@ function TemplateForm() {
 
   return (
     <div className="container mt-4">
-      {/* Template Form Card */}
       <div className="card">
         <div className="card-header" style={{ backgroundColor: "#6f42c1", color: "white" }}>
           <h4>{t("create_template")}</h4>
@@ -229,7 +228,6 @@ function TemplateForm() {
               />
             </div>
 
-            {/* Template Description */}
             <div className="mb-3">
               <label htmlFor="description" className="form-label">{t("description")}</label>
               <textarea
@@ -243,7 +241,6 @@ function TemplateForm() {
               ></textarea>
             </div>
 
-            {/* Theme Selection */}
             <div className="mb-3">
               <label htmlFor="theme" className="form-label">{t("theme")}</label>
               <select
@@ -262,7 +259,6 @@ function TemplateForm() {
               </select>
             </div>
 
-            {/* Public/Private Selection */}
             <div className="mb-3">
               <label className="form-label">{t("public")}</label>
               <div className="form-check">
@@ -291,7 +287,6 @@ function TemplateForm() {
               </div>
             </div>
 
-            {/* Image Upload */}
             <div className="mb-3">
               <label htmlFor="image" className="form-label">{t("image")}</label>
               <input
@@ -309,7 +304,6 @@ function TemplateForm() {
         </div>
       </div>
 
-      {/* Question Modal */}
       {modalVisible && (
         <div className="modal show d-block" tabIndex="-1">
           <div className="modal-dialog">
@@ -323,7 +317,6 @@ function TemplateForm() {
                 ></button>
               </div>
               <div className="modal-body">
-                {/* Question Name */}
                 <div className="mb-3">
                   <label htmlFor="questionName" className="form-label">{t("question_name")}</label>
                   <input
@@ -337,7 +330,6 @@ function TemplateForm() {
                   />
                 </div>
 
-                {/* Question Description */}
                 <div className="mb-3">
                   <label htmlFor="questionDescription" className="form-label">{t("description")}</label>
                   <textarea
@@ -351,7 +343,6 @@ function TemplateForm() {
                   ></textarea>
                 </div>
 
-                {/* Answer Type */}
                 <div className="mb-3">
                   <label htmlFor="answerType" className="form-label">{t("answer_type")}</label>
                   <select
@@ -366,7 +357,6 @@ function TemplateForm() {
                   </select>
                 </div>
 
-                {/* Show Answer */}
                 <div className="mb-3">
                   <label htmlFor="show_answer" className="form-label">{t("show_answer")}</label>
                   <select
@@ -381,7 +371,6 @@ function TemplateForm() {
                   </select>
                 </div>
 
-                {/* Answer Options */}
                 {questionData.answerType === "checkbox" && (
                   <div>
                     {questionData.answers.map((answer, index) => (

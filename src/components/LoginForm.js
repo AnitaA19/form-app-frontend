@@ -1,5 +1,3 @@
-// filepath: /c:/Users/anita/OneDrive/Документы/OneDrive/Desktop/form-app/frontend/src/components/LoginForm.js
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -20,7 +18,7 @@ function LoginForm({ onClose, setIsLogin, setIsAuthenticated, setUserEmail }) {
         setError(null);
 
         try {
-            const response = await fetch('http://localhost:3000/api/login', {
+            const response = await fetch( `${process.env.REACT_APP_API_URL}/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -33,10 +31,9 @@ function LoginForm({ onClose, setIsLogin, setIsAuthenticated, setUserEmail }) {
 
             if (response.ok) {
                 const currentTime = new Date().getTime();
-                const expiryDuration = 3600 * 1000; // 1 hour
+                const expiryDuration = 3600 * 1000; 
                 const expiryTime = currentTime + expiryDuration;
 
-                // Store the token, role, and email in localStorage
                 localStorage.setItem('authToken', data.token);
                 localStorage.setItem('userData', JSON.stringify({ email: data.email, role: data.role }));
                 localStorage.setItem('authExpiryTime', expiryTime);
@@ -44,11 +41,10 @@ function LoginForm({ onClose, setIsLogin, setIsAuthenticated, setUserEmail }) {
                 setIsAuthenticated(true);
                 setUserEmail(data.email);
 
-                // Redirect based on the role
                 if (data.role === 'admin') {
-                    navigate(data.redirect); // Uses the redirect URL provided by the backend
+                    navigate(data.redirect); 
                 } else {
-                    navigate('/'); // Default redirect for non-admin users
+                    navigate('/');
                 }
 
                 onClose();

@@ -21,7 +21,7 @@ const TemplatesCRUD = () => {
   useEffect(() => {
     if (id) {
       axios
-        .get(`http://localhost:3000/api/templates/${id}`)
+        .get(`${process.env.REACT_APP_API_URL}/templates/${id}`)
         .then((response) => {
           const { title, description, theme, is_public, image_url } = response.data.template;
           setTemplateData({

@@ -7,12 +7,11 @@ function AdminPanel() {
     const { t } = useTranslation();
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [currentUser, setCurrentUser] = useState({ ID: 1, role: 'admin' }); 
 
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const response = await fetch('http://localhost:3000/api/users'); 
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/api/users`); 
                 if (!response.ok) {
                     throw new Error('Error fetching users');
                 }
@@ -29,12 +28,8 @@ function AdminPanel() {
     }, []);
 
     const handleDeleteUser = async (userID) => {
-        if (userID === currentUser.ID) {
-            alert(t('cannot_delete_own_account'));
-            return;
-        }
         try {
-            const response = await fetch(`http://localhost:3000/api/users/${userID}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/users/${userID}`, {
                 method: 'DELETE',
             });
             if (!response.ok) {
@@ -47,13 +42,9 @@ function AdminPanel() {
     };
 
     const handleUpdateRole = async (userID, newRole) => {
-        if (userID === currentUser.ID && newRole === 'user') {
-            alert(t('cannot_demote_self'));
-            return;
-        }
         const endpoint = newRole === 'admin'
-            ? `http://localhost:3000/api/users/${userID}/make-admin`
-            : `http://localhost:3000/api/users/${userID}/revoke-admin`;
+            ? `${process.env.REACT_APP_API_URL}/users/${userID}/make-admin`
+            : `${process.env.REACT_APP_API_URL}/users/${userID}/revoke-admin`;
 
         try {
             const response = await fetch(endpoint, {
@@ -107,20 +98,18 @@ function AdminPanel() {
                                             </span>
                                         </td>
                                         <td className="text-center">
-                                            {user.ID !== currentUser.ID && (
-                                                <button
-                                                    className="btn btn-sm"
-                                                    style={{
-                                                        backgroundColor: '#A593D1',
-                                                        color: 'white',
-                                                        marginRight: '10px',
-                                                        borderRadius: '5px',
-                                                    }}
-                                                    onClick={() => handleUpdateRole(user.ID, user.role === 'user' ? 'admin' : 'user')}
-                                                >
-                                                    {user.role === 'user' ? t('make_admin') : t('revoke_admin')}
-                                                </button>
-                                            )}
+                                            <button
+                                                className="btn btn-sm"
+                                                style={{
+                                                    backgroundColor: '#A593D1',
+                                                    color: 'white',
+                                                    marginRight: '10px',
+                                                    borderRadius: '5px',
+                                                }}
+                                                onClick={() => handleUpdateRole(user.ID, user.role === 'user' ? 'admin' : 'user')}
+                                            >
+                                                {user.role === 'user' ? t('make_admin') : t('revoke_admin')}
+                                            </button>
                                             <button
                                                 className="btn btn-sm"
                                                 style={{
