@@ -21,25 +21,23 @@ const TemplatesCRUD = () => {
   useEffect(() => {
     if (id) {
       axios
-  .delete(`${process.env.REACT_APP_API_URL}/templates/${id}`, {
-    headers: {
-      'Authorization': `Bearer ${localStorage.getItem('token')}` // or wherever your token is stored
-    }
-  })
-  .then((response) => {
-    setSuccess(response.data.message);
-    navigate('/templates');
-  })
-  .catch((err) => {
-    console.error('Error deleting template:', err);
-    setError(t('failed_to_delete_template'));
-  })
+        .get(`${process.env.REACT_APP_API_URL}/templates/${id}`)
+        .then((response) => {
+          const { title, description, theme, is_public, image_url } = response.data.template;
+          setTemplateData({
+            name: title,
+            description,
+            theme,
+            public: is_public === 1,
+            image: image_url,
+          });
+        })
         .catch((err) => {
           console.error('Error fetching template:', err);
           setError(t('failed_to_fetch_template'));
         });
     }
-  }, [id, t, navigate]);
+  }, [id, t]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -59,6 +57,7 @@ const TemplatesCRUD = () => {
     formData.append('theme', templateData.theme);
     formData.append('is_public', templateData.public ? 1 : 0);
     if (templateData.image) formData.append('image', templateData.image);
+
 
     axios
       .put(`${process.env.REACT_APP_API_URL}/api/templates/${id}`, formData)
