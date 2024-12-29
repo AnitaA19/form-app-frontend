@@ -58,9 +58,8 @@ const TemplatesCRUD = () => {
     formData.append('is_public', templateData.public ? 1 : 0);
     if (templateData.image) formData.append('image', templateData.image);
 
-    // Update the template via API
     axios
-      .put(`http://localhost:3000/api/templates/${id}`, formData)
+      .put(`${process.env.REACT_APP_API_URL}/api/templates/${id}`, formData)
       .then((response) => {
         setSuccess(response.data.message);
       })
