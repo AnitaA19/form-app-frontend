@@ -29,13 +29,13 @@ function UserQuestions() {
       try {
         const token = localStorage.getItem('authToken');
         if (!token) return;
-
+    
         const response = await fetch(`${process.env.REACT_APP_API_URL}/questions/user`, {
           headers: { 'Authorization': `Bearer ${token}` },
         });
-
+    
         if (!response.ok) throw new Error(`Failed to fetch, status: ${response.status}`);
-
+    
         const data = await response.json();
         if (data.success) {
           setQuestions(data.questions);
@@ -43,11 +43,11 @@ function UserQuestions() {
           setError(data.message || t('failed_to_fetch_questions'));
         }
       } catch (error) {
-        setError(t('error_fetching_questions'));
+        setError(t('error_fetching_questions') + ': ' + error.message);
       } finally {
         setLoading(false);
       }
-    };
+    };    
 
     fetchQuestions();
   }, [t]);
