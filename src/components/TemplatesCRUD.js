@@ -72,7 +72,7 @@ const TemplatesCRUD = () => {
 
   const handleDelete = () => {
     axios
-      .delete(`http://localhost:3000/api/templates/${id}`)
+      .delete(`${process.env.REACT_APP_API_URL}/templates/${id}`)
       .then((response) => {
         setSuccess(response.data.message);
         navigate('/templates');
