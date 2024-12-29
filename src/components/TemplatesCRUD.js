@@ -33,14 +33,13 @@ const TemplatesCRUD = () => {
   .catch((err) => {
     console.error('Error deleting template:', err);
     setError(t('failed_to_delete_template'));
-  });
-
+  })
         .catch((err) => {
           console.error('Error fetching template:', err);
           setError(t('failed_to_fetch_template'));
         });
     }
-  }, [id, t]);
+  }, [id, t, navigate]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
