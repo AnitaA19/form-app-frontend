@@ -153,6 +153,8 @@ i18n
           "logout": "Logout",
           "welcome": "Welcome",
           "search": "Search",
+          "register": "Register",
+          "registering": "Registering",
         }
       },
       ru: {
@@ -301,6 +303,9 @@ i18n
           "logout": "Выйти",
           "welcome": "Добро пожаловать",
           "search": "Поиск",
+          "register": "Зарегистрироваться",
+          "registering": "Регистрация",
+
         }
       },
       es: {
@@ -449,6 +454,8 @@ i18n
           "logout": "Cerrar sesión",
           "welcome": "Bienvenido",
           "search": "Buscar",
+          "register": "Registrarse",
+          "registering": "Registrando",
         }
       }
     },
