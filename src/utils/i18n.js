@@ -170,6 +170,8 @@ i18n
           "make_admin": "Make Admin",
           "remove_admin": "Remove Admin",
           "go_back_home": "Go Back Home",
+          "login_to_fill": "Login to fill",
+          "template_id": "Template ID",
         }
       },
       ru: {
@@ -335,6 +337,7 @@ i18n
           "make_admin": "Сделать администратором",
           "remove_admin": "Удалить администратора",
           "go_back_home": "Вернуться на главную страницу",
+          "login_to_fill": "Войдите, чтобы заполнить",
 
         }
       },
@@ -501,6 +504,7 @@ i18n
           "make_admin": "Hacer administrador",
           "remove_admin": "Eliminar administrador",
           "go_back_home": "Volver a la página principal",
+          "login_to_fill": "Inicia sesión para rellenar",
         }
       }
     },
