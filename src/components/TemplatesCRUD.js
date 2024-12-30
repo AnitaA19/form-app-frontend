@@ -70,8 +70,14 @@ const TemplatesCRUD = () => {
   };
 
   const handleDelete = () => {
+    const token = localStorage.getItem('authToken'); 
+
     axios
-      .delete(`${process.env.REACT_APP_API_URL}/templates/${id}`)
+      .delete(`${process.env.REACT_APP_API_URL}/templates/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         console.log('Delete response:', response);
         setSuccess(response.data.message);
@@ -79,7 +85,11 @@ const TemplatesCRUD = () => {
       })
       .catch((err) => {
         console.error('Error deleting template:', err);
-        console.error('Error response:', err.response);
+        if (err.response) {
+          console.error('Error response data:', err.response.data);
+          console.error('Error response status:', err.response.status);
+          console.error('Error response headers:', err.response.headers);
+        }
         setError(t('failed_to_delete_template'));
       });
   };
@@ -95,7 +105,6 @@ const TemplatesCRUD = () => {
           {success && <div className="alert alert-success">{success}</div>}
 
           <form onSubmit={handleSubmit}>
-            {/* Template Name */}
             <div className="mb-3">
               <label htmlFor="name" className="form-label">{t('name')}</label>
               <input

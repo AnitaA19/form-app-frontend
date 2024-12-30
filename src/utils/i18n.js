@@ -147,6 +147,9 @@ i18n
           "form_fetched_successfully": "Form fetched successfully",
           "template_deleted_successfully": "Template deleted successfully",
           "template_fetched_successfully": "Template fetched successfully",
+          "update_template": "Update Template",
+          "delete_template": "Delete Template",
+          "edit_template": "Edit Template",
         }
       },
       ru: {
@@ -289,6 +292,9 @@ i18n
           "form_fetched_successfully": "Форма успешно получена",
           "template_deleted_successfully": "Шаблон успешно удален",
           "template_fetched_successfully": "Шаблон успешно получен",
+          "update_template": "Обновить шаблон",
+          "delete_template": "Удалить шаблон",
+          "edit_template": "Редактировать шаблон",
         }
       },
       es: {
@@ -431,6 +437,9 @@ i18n
           "form_fetched_successfully": "Formulario obtenido con éxito",
           "template_deleted_successfully": "Plantilla eliminada con éxito",
           "template_fetched_successfully": "Plantilla obtenida con éxito",
+          "update_template": "Actualizar plantilla",
+          "delete_template": "Eliminar plantilla",
+          "edit_template": "Editar plantilla",
         }
       }
     },
