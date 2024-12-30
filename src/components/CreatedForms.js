@@ -24,7 +24,7 @@ function CreatedForms() {
         };
 
         fetchQuestions();
-        
+
         const token = localStorage.getItem('authToken');
         if (token) {
             setIsAuthenticated(true);
