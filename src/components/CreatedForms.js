@@ -48,24 +48,29 @@ function CreatedForms() {
                         {Object.keys(questions).map((authorId) => (
                             <div key={authorId} className="col-12 mb-4">
                                 <h3 style={{ color: '#6f42c1' }}>{t('author_id')}: {authorId}</h3>
-                                {questions[authorId].map((question) => (
-                                    <div key={question.question_id} className="card mb-3" style={{ borderColor: '#6f42c1', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
-                                        <div className="card-body">
-                                            <h5 className="card-title" style={{ color: '#6f42c1' }}>{question.name}</h5>
-                                            <p className="card-text" style={{ color: '#6f42c1' }}>{t('description')}: {question.description}</p>
-                                            <p className="card-text" style={{ color: '#6f42c1' }}>{t('template_id')}: {question.template_id}</p>
-                                            <p className="card-text" style={{ color: '#6f42c1' }}>{t('answer_type')}: {question.answer_type}</p>
-                                            <p className="card-text" style={{ color: '#6f42c1' }}>{t('show_answer')}: {question.show_answer}</p>
-                                            <p className="card-text" style={{ color: '#6f42c1' }}>{t('answers')}: {JSON.stringify(question.answers)}</p>
-                                            <p className="card-text" style={{ color: '#6f42c1' }}>{t('correct_answer')}: {JSON.stringify(question.correct_answer)}</p>
-                                            {isAuthenticated ? (
-                                                <button className="btn btn-primary" style={{ backgroundColor: '#6f42c1', borderColor: '#6f42c1' }}>{t('fill')}</button>
-                                            ) : (
-                                                <p className="text-muted">{t('login_to_fill')}</p>
-                                            )}
+                                <div className="row">
+                                    {questions[authorId].map((question) => (
+                                        <div key={question.question_id} className="col-md-6 col-lg-4 mb-3">
+                                            <div className="card h-100" style={{ borderColor: '#6f42c1', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
+                                                <div className="card-body">
+                                                    <h5 className="card-title" style={{ color: '#6f42c1' }}>{question.name}</h5>
+                                                    <p className="card-text" style={{ color: '#6f42c1' }}>{t('description')}: {question.description}</p>
+                                                    <p className="card-text" style={{ color: '#6f42c1' }}>{t('template_id')}: {question.template_id}</p>
+                                                    <p className="card-text" style={{ color: '#6f42c1' }}>{t('answer_type')}: {question.answer_type}</p>
+                                                    <p className="card-text" style={{ color: '#6f42c1' }}>{t('show_answer')}: {question.show_answer}</p>
+                                                    <p className="card-text" style={{ color: '#6f42c1' }}>{t('answers')}: {JSON.stringify(question.answers)}</p>
+                                                    <p className="card-text" style={{ color: '#6f42c1' }}>{t('correct_answer')}: {JSON.stringify(question.correct_answer)}</p>
+                                                    <p className="card-text" style={{ color: '#6f42c1' }}>{t('author_email')}: {question.user_email}</p>
+                                                    {isAuthenticated ? (
+                                                        <button className="btn btn-primary" style={{ backgroundColor: '#6f42c1', borderColor: '#6f42c1' }}>{t('fill')}</button>
+                                                    ) : (
+                                                        <p className="text-muted">{t('login_to_fill')}</p>
+                                                    )}
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                ))}
+                                    ))}
+                                </div>
                             </div>
                         ))}
                     </div>
