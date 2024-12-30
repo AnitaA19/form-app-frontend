@@ -58,9 +58,8 @@ const TemplatesCRUD = () => {
     formData.append('is_public', templateData.public ? 1 : 0);
     if (templateData.image) formData.append('image', templateData.image);
 
-
     axios
-      .put(`${process.env.REACT_APP_API_URL}/api/templates/${id}`, formData)
+      .put(`${process.env.REACT_APP_API_URL}/templates/${id}`, formData)
       .then((response) => {
         setSuccess(response.data.message);
       })
@@ -74,11 +73,13 @@ const TemplatesCRUD = () => {
     axios
       .delete(`${process.env.REACT_APP_API_URL}/templates/${id}`)
       .then((response) => {
+        console.log('Delete response:', response);
         setSuccess(response.data.message);
         navigate('/templates');
       })
       .catch((err) => {
         console.error('Error deleting template:', err);
+        console.error('Error response:', err.response);
         setError(t('failed_to_delete_template'));
       });
   };
@@ -132,8 +133,8 @@ const TemplatesCRUD = () => {
               >
                 <option value="">{t('select_theme')}</option>
                 <option value="data-science">{t('data_science')}</option>
-                <option value="front">{t('frontend')}</option>
-                <option value="back">{t('backend')}</option>
+                <option value="frontend">{t('frontend')}</option>
+                <option value="backend">{t('backend')}</option>
                 <option value="devops">{t('devops')}</option>
                 <option value="database">{t('database')}</option>
               </select>
