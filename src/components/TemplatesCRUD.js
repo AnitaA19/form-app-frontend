@@ -81,7 +81,7 @@ const TemplatesCRUD = () => {
       .then((response) => {
         console.log('Delete response:', response);
         setSuccess(response.data.message);
-        navigate('/templates');
+        navigate('/');
       })
       .catch((err) => {
         console.error('Error deleting template:', err);
