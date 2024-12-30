@@ -173,6 +173,7 @@ i18n
           "login_to_fill": "Login to fill",
           "template_id": "Template ID",
           "author_email": "Author Email",
+          "fill": "Fill",
         }
       },
       ru: {
@@ -341,6 +342,7 @@ i18n
           "login_to_fill": "Войдите, чтобы заполнить",
           "template_id": "ID шаблона",
           "author_email": "Email автора",  
+          "fill": "Заполнить",
         }
       },
       es: {
@@ -509,6 +511,7 @@ i18n
           "login_to_fill": "Inicia sesión para rellenar",
           "template_id": "ID de plantilla",  
           "author_email": "Correo electrónico del autor",
+          "fill": "Rellenar",
         }
       }
     },
