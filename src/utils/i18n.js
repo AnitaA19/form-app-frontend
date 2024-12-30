@@ -152,6 +152,7 @@ i18n
           "edit_template": "Edit Template",
           "logout": "Logout",
           "welcome": "Welcome",
+          "search": "Search",
         }
       },
       ru: {
@@ -299,6 +300,7 @@ i18n
           "edit_template": "Редактировать шаблон",
           "logout": "Выйти",
           "welcome": "Добро пожаловать",
+          "search": "Поиск",
         }
       },
       es: {
@@ -446,6 +448,7 @@ i18n
           "edit_template": "Editar plantilla",
           "logout": "Cerrar sesión",
           "welcome": "Bienvenido",
+          "search": "Buscar",
         }
       }
     },
