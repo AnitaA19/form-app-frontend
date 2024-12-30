@@ -164,6 +164,12 @@ i18n
           "go_back": "Go back",
           "update_user": "Update User",
           "delete_user": "Delete User",
+          "id": "ID",
+          "role": "Role",
+          "actions": "Actions",
+          "make_admin": "Make Admin",
+          "remove_admin": "Remove Admin",
+          "go_back_home": "Go Back Home",
         }
       },
       ru: {
@@ -323,6 +329,13 @@ i18n
           "go_back": "Назад",
           "update_user": "Обновить пользователя",
           "delete_user": "Удалить пользователя",
+          "id": "ID",
+          "role": "Роль",
+          "actions": "Действия",
+          "make_admin": "Сделать администратором",
+          "remove_admin": "Удалить администратора",
+          "go_back_home": "Вернуться на главную страницу",
+
         }
       },
       es: {
@@ -482,6 +495,12 @@ i18n
           "go_back": "Volver",
           "update_user": "Actualizar usuario",
           "delete_user": "Eliminar usuario",
+          "id": "ID",
+          "role": "Rol",
+          "actions": "Acciones",
+          "make_admin": "Hacer administrador",
+          "remove_admin": "Eliminar administrador",
+          "go_back_home": "Volver a la página principal",
         }
       }
     },
