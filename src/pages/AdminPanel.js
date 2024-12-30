@@ -11,7 +11,7 @@ function AdminPanel() {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const response = await fetch(`${process.env.REACT_APP_API_URL}/api/users`); 
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/users`); 
                 if (!response.ok) {
                     throw new Error('Error fetching users');
                 }

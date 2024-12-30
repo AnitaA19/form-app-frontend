@@ -158,6 +158,12 @@ i18n
           "sign_in": "Sign in",
           "sign_out": "Sign out",
           "save_question": "Save question",
+          "admin_panel": "Admin Panel",
+          "manage_users": "Manage Users",
+          "user_management": "User Management",
+          "go_back": "Go back",
+          "update_user": "Update User",
+          "delete_user": "Delete User",
         }
       },
       ru: {
@@ -311,6 +317,12 @@ i18n
 "sign_in": "Войти",
           "sign_out": "Выйти",
           "save_question": "Сохранить вопрос",
+          "admin_panel": "Панель администратора",
+          "manage_users": "Управление пользователями",
+          "user_management": "Управление пользователями",
+          "go_back": "Назад",
+          "update_user": "Обновить пользователя",
+          "delete_user": "Удалить пользователя",
         }
       },
       es: {
@@ -464,6 +476,12 @@ i18n
           "sign_in": "Iniciar sesión",
           "sign_out": "Cerrar sesión",
           "save_question": "Guardar pregunta",
+          "admin_panel": "Panel de administración",
+          "manage_users": "Gestionar usuarios",
+          "user_management": "Gestión de usuarios",
+          "go_back": "Volver",
+          "update_user": "Actualizar usuario",
+          "delete_user": "Eliminar usuario",
         }
       }
     },
