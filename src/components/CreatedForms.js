@@ -24,8 +24,7 @@ function CreatedForms() {
         };
 
         fetchQuestions();
-
-        // Check if the user is authenticated
+        
         const token = localStorage.getItem('authToken');
         if (token) {
             setIsAuthenticated(true);

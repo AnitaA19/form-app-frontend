@@ -172,6 +172,7 @@ i18n
           "go_back_home": "Go Back Home",
           "login_to_fill": "Login to fill",
           "template_id": "Template ID",
+          "author_email": "Author Email",
         }
       },
       ru: {
@@ -338,7 +339,8 @@ i18n
           "remove_admin": "Удалить администратора",
           "go_back_home": "Вернуться на главную страницу",
           "login_to_fill": "Войдите, чтобы заполнить",
-
+          "template_id": "ID шаблона",
+          "author_email": "Email автора",  
         }
       },
       es: {
@@ -505,6 +507,8 @@ i18n
           "remove_admin": "Eliminar administrador",
           "go_back_home": "Volver a la página principal",
           "login_to_fill": "Inicia sesión para rellenar",
+          "template_id": "ID de plantilla",  
+          "author_email": "Correo electrónico del autor",
         }
       }
     },
