@@ -157,6 +157,7 @@ i18n
           "registering": "Registering",
           "sign_in": "Sign in",
           "sign_out": "Sign out",
+          "save_question": "Save question",
         }
       },
       ru: {
@@ -309,6 +310,7 @@ i18n
           "registering": "Регистрация",
 "sign_in": "Войти",
           "sign_out": "Выйти",
+          "save_question": "Сохранить вопрос",
         }
       },
       es: {
@@ -461,6 +463,7 @@ i18n
           "registering": "Registrando",
           "sign_in": "Iniciar sesión",
           "sign_out": "Cerrar sesión",
+          "save_question": "Guardar pregunta",
         }
       }
     },
