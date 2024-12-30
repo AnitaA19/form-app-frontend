@@ -34,7 +34,7 @@ function CreatedForms() {
     return (
         <section className="py-5" style={{ backgroundColor: '#E6E6FA' }}>
             <div className="container">
-                <p className="h4 mb-4" style={{ color: '#6f42c1' }}>{t('latest_questions')}</p>
+                <p className="h4 mb-4" style={{ color: '#6f42c1' }}>{t('latest_forms')}</p>
 
                 {loading ? (
                     <p style={{ color: '#6f42c1' }}>{t('loading')}</p>
