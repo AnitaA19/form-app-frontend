@@ -65,10 +65,7 @@ function TemplateForm() {
 
   const handleCheckboxChange = (index) => {
     const updatedAnswers = [...questionData.answers];
-    updatedAnswers[index] = { 
-      ...updatedAnswers[index], 
-      selected: !updatedAnswers[index].selected 
-    };
+    updatedAnswers[index].selected = !updatedAnswers[index].selected; 
     setQuestionData({
       ...questionData,
       answers: updatedAnswers,
@@ -150,32 +147,31 @@ function TemplateForm() {
 
   const handleQuestionSubmit = async () => {
     const correct_answer = questionData.answers
-    .filter(answer => answer.selected)
-    .map((answer, index) => index); 
+    .filter(answer => answer.selected)   
+    .map(answer => answer.id);
   
-
     if (correct_answer.length === 0 && questionData.answerType === "checkbox") {
       setError(t("select_at_least_one_correct_answer"));
       return;
     }
-
+  
     const questionDataToSend = {
       template_id: templateId,
       name: questionData.name,
       description: questionData.description,
       answerType: questionData.answerType,
       show_answer: parseInt(questionData.show_answer),
-      answers: questionData.answers.map(answer => answer.text),
-      correct_answer: correct_answer
+      answers: questionData.answers.map(answer => answer.text), 
+      correct_answer: correct_answer, 
     };
-
+  
     try {
       const token = localStorage.getItem("authToken");
       if (!token) {
         setError(t("must_be_logged_in"));
         return;
       }
-
+  
       await axios.post(
         `${process.env.REACT_APP_API_URL}/${templateId}/questions`,
         questionDataToSend,
@@ -186,15 +182,15 @@ function TemplateForm() {
           },
         }
       );
-
+  
       setQuestionData({
         name: "",
         description: "",
         answerType: "checkbox",
         show_answer: 0,
-        answers: [{ id: 1, text: "", selected: false }]
+        answers: [{ id: 1, text: "", selected: false }],
       });
-
+  
       setModalVisible(false);
       setSuccess(t("question_created_successfully"));
       setError("");
@@ -203,6 +199,7 @@ function TemplateForm() {
       setError(`${t("failed_to_create_question")}: ${error.response?.data?.message || t("unknown_error")}`);
     }
   };
+  
 
   return (
     <div className="container mt-4">
@@ -215,7 +212,6 @@ function TemplateForm() {
           {success && <div className="alert alert-success">{success}</div>}
 
           <form onSubmit={handleSubmit}>
-            {/* Template Name */}
             <div className="mb-3">
               <label htmlFor="name" className="form-label">{t("question_name")}</label>
               <input
