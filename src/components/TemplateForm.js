@@ -150,8 +150,9 @@ function TemplateForm() {
 
   const handleQuestionSubmit = async () => {
     const correct_answer = questionData.answers
-      .filter(answer => answer.selected)
-      .map(answer => answer.id);
+    .filter(answer => answer.selected)
+    .map((answer, index) => index); 
+  
 
     if (correct_answer.length === 0 && questionData.answerType === "checkbox") {
       setError(t("select_at_least_one_correct_answer"));
