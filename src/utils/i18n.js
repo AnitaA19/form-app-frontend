@@ -174,6 +174,9 @@ i18n
           "template_id": "Template ID",
           "author_email": "Author Email",
           "fill": "Fill",
+          "save_chaned": "Save changes",
+          "cancel": "Cancel",
+          "create_question" : "Create Question"
         }
       },
       ru: {
@@ -343,6 +346,9 @@ i18n
           "template_id": "ID шаблона",
           "author_email": "Email автора",  
           "fill": "Заполнить",
+          "save_changes": "Сохранить изменения",
+          "cancel" : "Отмена",
+          "create_question" : "Создать вопрос"
         }
       },
       es: {
@@ -512,6 +518,9 @@ i18n
           "template_id": "ID de plantilla",  
           "author_email": "Correo electrónico del autor",
           "fill": "Rellenar",
+          "save_changes": "Guardar Cambios",
+          "cancel" : "Cancelar",
+          "create_question": "Crear Pregunta"
         }
       }
     },

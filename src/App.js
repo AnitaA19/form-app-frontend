@@ -10,7 +10,7 @@ function App() {
             <div className="App">
                 <Routes>
                     <Route path="/" element={<Home />} />
-                    <Route path="/admin-panel" element={<AdminPanel />} /> {/* Admin panel route */}
+                    <Route path="/admin-panel" element={<AdminPanel />} /> 
                     <Route path="/create-template" element={<CreateTemplate />} />
                     <Route path="/template-crud/:id" element={<TemplatesCRUDPage />} />
                 </Routes>

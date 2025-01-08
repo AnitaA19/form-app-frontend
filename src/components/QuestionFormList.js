@@ -16,6 +16,7 @@ function UserQuestions() {
     answerType: 'checkbox',
     showAnswer: '1',
     answers: [],
+    correct_answer: []
   });
 
   const navigate = useNavigate();
@@ -54,24 +55,36 @@ function UserQuestions() {
 
   const handleEditClick = (question) => {
     setSelectedQuestion(question);
-    const correctAnswers = Array.isArray(question.correct_answer)
-      ? question.correct_answer
-      : JSON.parse(question.correct_answer);
-
+  
+    let parsedAnswers = [];
+    let parsedCorrectAnswers = [];
+  
+    try {
+      parsedAnswers = typeof question.answers === 'string'
+        ? JSON.parse(question.answers) 
+        : question.answers || [];
+      
+      parsedCorrectAnswers = typeof question.correct_answer === 'string'
+        ? JSON.parse(question.correct_answer)
+        : question.correct_answer || [];
+    } catch (e) {
+      console.error('Error parsing:', e);
+      parsedAnswers = [];
+      parsedCorrectAnswers = [];
+    }
+  
     setQuestionData({
       name: question.name,
       description: question.description,
       answerType: question.answer_type || 'checkbox',
       showAnswer: question.show_answer ? '1' : '0',
-      answers: question.answers.map((answer, index) => ({
-        text: answer,
-        correct: correctAnswers.includes(index + 1),
-        selected: correctAnswers.includes(index + 1),
-      })),
+      answers: parsedAnswers,
+      correct_answer: parsedCorrectAnswers
     });
-
+  
     setIsModalOpen(true);
   };
+  
 
   const handleSaveChanges = async () => {
     try {
@@ -80,21 +93,39 @@ function UserQuestions() {
         setError(t('auth_token_missing'));
         return;
       }
-
+  
+      const requestData = {
+        name: questionData.name,
+        description: questionData.description,
+        answerType: questionData.answerType,
+        show_answer: questionData.showAnswer === '1',
+        answers: questionData.answers.length > 0 ? questionData.answers : [],
+        correct_answer: questionData.correct_answer.length > 0 ? questionData.correct_answer : []
+      };
+  
       const response = await fetch(`${process.env.REACT_APP_API_URL}/questions/${selectedQuestion.question_id}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(questionData),
+        body: JSON.stringify(requestData),
       });
-
+  
       if (response.ok) {
-        const updatedQuestions = questions.map((q) =>
-          q.question_id === selectedQuestion.question_id ? { ...q, ...questionData } : q
-        );
-        setQuestions(updatedQuestions);
+        const updatedQuestion = {
+          ...selectedQuestion,
+          name: questionData.name,
+          description: questionData.description,
+          answer_type: questionData.answerType,
+          show_answer: questionData.showAnswer === '1',
+          answers: requestData.answers,
+          correct_answer: requestData.correct_answer
+        };
+  
+        setQuestions(questions.map((q) =>
+          q.question_id === selectedQuestion.question_id ? updatedQuestion : q
+        ));
         setIsModalOpen(false);
       } else {
         const data = await response.json();
@@ -104,6 +135,8 @@ function UserQuestions() {
       setError(t('error_saving_changes'));
     }
   };
+  
+  
 
   const handleDeleteQuestion = async (questionId) => {
     try {
@@ -129,6 +162,54 @@ function UserQuestions() {
     } catch (error) {
       setError(t('error_deleting_question'));
     }
+  };
+
+  const handleAnswerChange = (index, value) => {
+    const newAnswers = [...questionData.answers];
+    newAnswers[index] = value;
+    setQuestionData({
+      ...questionData,
+      answers: newAnswers
+    });
+  };
+
+  const handleCorrectAnswerChange = (index) => {
+    const newCorrectAnswers = [...questionData.correct_answer];
+    const answerNumber = index + 1;
+    
+    if (newCorrectAnswers.includes(answerNumber)) {
+      const filteredAnswers = newCorrectAnswers.filter(num => num !== answerNumber);
+      setQuestionData({
+        ...questionData,
+        correct_answer: filteredAnswers
+      });
+    } else {
+      newCorrectAnswers.push(answerNumber);
+      setQuestionData({
+        ...questionData,
+        correct_answer: newCorrectAnswers
+      });
+    }
+  };
+
+  const deleteAnswer = (index) => {
+    const newAnswers = questionData.answers.filter((_, i) => i !== index);
+    const newCorrectAnswers = questionData.correct_answer
+      .filter(num => num !== index + 1)
+      .map(num => num > index + 1 ? num - 1 : num);
+
+    setQuestionData({
+      ...questionData,
+      answers: newAnswers,
+      correct_answer: newCorrectAnswers
+    });
+  };
+
+  const addAnswer = () => {
+    setQuestionData({
+      ...questionData,
+      answers: [...questionData.answers, '']
+    });
   };
 
   return (
@@ -197,20 +278,19 @@ function UserQuestions() {
 
       {isModalOpen && (
         <div className="modal show d-block">
-          <div className="modal-dialog">
+          <div className="modal-dialog overflow-hidden">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title" style={{ color: '#6f42c1' }}>{t('edit_question')}</h5>
+                <h5 className="modal-title" style={{ color: '#6f42c1' }}>Edit Question</h5>
                 <button
                   type="button"
                   className="btn-close"
                   onClick={() => setIsModalOpen(false)}
-                  style={{ color: '#6f42c1' }}
                 ></button>
               </div>
               <div className="modal-body">
                 <div className="mb-3">
-                  <label className="form-label" style={{ color: '#6f42c1' }}>{t('question_name')}</label>
+                  <label className="form-label" style={{ color: '#6f42c1' }}>Question Name</label>
                   <input
                     type="text"
                     className="form-control"
@@ -218,19 +298,81 @@ function UserQuestions() {
                     onChange={(e) => setQuestionData({ ...questionData, name: e.target.value })}
                   />
                 </div>
-                {/* Rest of the modal content */}
+                <div className="mb-3">
+                  <label className="form-label" style={{ color: '#6f42c1' }}>Description</label>
+                  <textarea
+                    className="form-control"
+                    rows="3"
+                    value={questionData.description}
+                    onChange={(e) =>
+                      setQuestionData({ ...questionData, description: e.target.value })
+                    }
+                  />
+                </div>
+                {questionData.answerType === 'checkbox' && (
+                  <div>
+                    <label className="form-label" style={{ color: '#6f42c1' }}>Answers</label>
+                    {questionData.answers.map((answer, index) => (
+                      <div key={index} className="d-flex align-items-center gap-2 mb-2">
+                        <input
+                          type="text"
+                          className="form-control"
+                          value={answer}
+                          onChange={(e) => handleAnswerChange(index, e.target.value)}
+                        />
+                        <input
+                          type="checkbox"
+                          className="form-check-input"
+                          checked={questionData.correct_answer.includes(index + 1)}
+                          onChange={() => handleCorrectAnswerChange(index)}
+                        />
+                        <button
+                          className="btn btn-danger btn-sm"
+                          onClick={() => deleteAnswer(index)}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    ))}
+                    <button 
+                      className="btn btn-primary btn-sm mt-2" 
+                      onClick={addAnswer}
+                    >
+                      Add Answer
+                    </button>
+                  </div>
+                )}
+                <div className="mb-3">
+                  <label className="form-check-label" style={{ color: '#6f42c1' }}>
+                    Show Answer
+                  </label>
+                  <select
+                    className="form-select"
+                    value={questionData.showAnswer}
+                    onChange={(e) =>
+                      setQuestionData({ ...questionData, showAnswer: e.target.value })
+                    }
+                  >
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                  </select>
+                </div>
               </div>
               <div className="modal-footer">
                 <button
                   type="button"
                   className="btn btn-secondary"
                   onClick={() => setIsModalOpen(false)}
-                  style={{ color: '#6f42c1' }}
                 >
-                  {t('cancel')}
+                  Cancel
                 </button>
-                <button type="button" className="btn btn-primary" onClick={handleSaveChanges} style={{ backgroundColor: '#6f42c1', color: '#fff' }}>
-                  {t('save_changes')}
+                <button 
+                  type="button" 
+                  className="btn btn-primary"
+                  onClick={handleSaveChanges}
+                  style={{ backgroundColor: '#6f42c1', color: '#fff' }}
+                >
+                  Save Changes
                 </button>
               </div>
             </div>
