@@ -41,25 +41,31 @@ const TemplatesCRUD = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+  
     if (!templateData.name || !templateData.description || !templateData.theme || templateData.public === null) {
       setError(t('fill_required_fields'));
       setSuccess('');
       return;
     }
-
+  
     setError('');
     setSuccess(t('template_updated_successfully'));
-
+  
     const formData = new FormData();
     formData.append('title', templateData.name);
     formData.append('description', templateData.description);
     formData.append('theme', templateData.theme);
     formData.append('is_public', templateData.public ? 1 : 0);
     if (templateData.image) formData.append('image', templateData.image);
-
+  
+    const token = localStorage.getItem('authToken'); 
+  
     axios
-      .put(`${process.env.REACT_APP_API_URL}/templates/${id}`, formData)
+      .put(`${process.env.REACT_APP_API_URL}/templates/${id}`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         setSuccess(response.data.message);
       })
@@ -68,6 +74,7 @@ const TemplatesCRUD = () => {
         setError(t('failed_to_update_template'));
       });
   };
+  
 
   const handleDelete = () => {
     const token = localStorage.getItem('authToken'); 
