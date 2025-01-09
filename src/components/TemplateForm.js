@@ -147,8 +147,8 @@ function TemplateForm() {
 
   const handleQuestionSubmit = async () => {
     const correct_answer = questionData.answers
-    .filter(answer => answer.selected)   
-    .map(answer => answer.id);
+      .map((answer, index) => (answer.selected ? index : -1))  // Map selected answers to their indices
+      .filter((index) => index !== -1); // Filter out the -1 values (non-selected answers)
   
     if (correct_answer.length === 0 && questionData.answerType === "checkbox") {
       setError(t("select_at_least_one_correct_answer"));
@@ -161,8 +161,8 @@ function TemplateForm() {
       description: questionData.description,
       answerType: questionData.answerType,
       show_answer: parseInt(questionData.show_answer),
-      answers: questionData.answers.map(answer => answer.text), 
-      correct_answer: correct_answer, 
+      answers: questionData.answers.map(answer => answer.text), // Keep answer texts
+      correct_answer: correct_answer, // Send indices of selected answers
     };
   
     try {
@@ -199,6 +199,7 @@ function TemplateForm() {
       setError(`${t("failed_to_create_question")}: ${error.response?.data?.message || t("unknown_error")}`);
     }
   };
+  
   
 
   return (
